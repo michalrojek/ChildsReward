@@ -1,0 +1,59 @@
+    <div class="main-panel">
+        <nav class="navbar navbar-default navbar-fixed">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navigation-example-2">
+                        <span class="sr-only">Włącz nawigację</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand" href="#">STATYSTYKI</a>
+                </div>
+
+                <div class="collapse navbar-collapse">
+                    
+                </div>
+            </div>
+        </nav>
+<div class="content">
+            <div class="container-fluid">
+                {{#if success_msg}}
+                    <div class="alert alert-success">{{success_msg}}</div>
+                {{/if}}
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="card ">
+                            <div class="header">
+                                <h4 class="title">Odznaczenia</h4>
+                            </div>
+                            <div class="content">
+                                <div class="table-full-width">
+                                    <table class="table">
+                                        <tbody>
+                                            {{#if achievmentsRender}}
+                                                {{#each achievmentsRender}}
+                                                    <tr>
+                                                        
+                                                        <td>{{name}}</td>
+                                                       
+                                                    </tr>
+                                                {{/each}}
+                                            {{/if}}
+                                        </tbody>
+                                    </table>
+                                </div>
+
+                                <div class="footer">
+                                    <hr>
+                                    <div class="stats">
+                                        <i class="fa fa-history"></i> Zaktualizowano 5 min. temu
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+</div>

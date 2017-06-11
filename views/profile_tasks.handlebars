@@ -1,0 +1,126 @@
+    <div class="main-panel">
+        <nav class="navbar navbar-default navbar-fixed">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navigation-example-2">
+                        <span class="sr-only">Włącz nawigację</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand" href="#">LISTA ZADAŃ</a>
+                </div>
+
+                <div class="collapse navbar-collapse">
+                    <a href="/dashboard/addTask"><button type="button" class="btn btn-success pull-right">Dodaj własne zadanie</button></a>
+                </div>
+            </div>
+        </nav>
+<div class="content">
+            <div class="container-fluid">
+                {{#if success_msg}}
+                    <div class="alert alert-success">{{success_msg}}</div>
+                {{/if}}
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="card ">
+                            <div class="header">
+                                <h4 class="title">ZADANIA JEDNORAZOWE</h4>
+                            </div>
+                            <div class="content">
+                                <div class="table-full-width">
+                                    <table class="table">
+                                        <tbody>
+                                            {{#if oneshotTasks}}
+                                                {{#each oneshotTasks}}
+                                                    <tr>
+                                                        <td>
+                                                            <label class="checkbox">
+                                                                <input type="checkbox" value="" data-toggle="checkbox">
+                                                            </label>
+                                                        </td>
+                                                        <td>{{name}}</td>
+                                                        <td class="td-actions text-right">
+                                                            <button type="button" rel="tooltip" title="Task Completed" class="btn btn-danger btn-simple btn-xs complete-task" data-id={{_id}}>
+                                                                <i class="fa fa-times"></i>
+                                                            </button>
+                                                            <a href="/dashboard/editTask/{{_id}}">
+                                                            <button type="button" rel="tooltip" title="Edit Task" class="btn btn-info btn-simple btn-xs">
+                                                                <i class="fa fa-edit"></i>
+                                                            </button>
+                                                            </a>
+                                                            <button type="button" rel="tooltip" title="Remove" class="btn btn-danger btn-simple btn-xs delete-task" data-id={{_id}}>
+                                                                <i class="fa fa-times"></i>
+                                                            </button>
+                                                        </td>
+                                                    </tr>
+                                                {{/each}}
+                                            {{/if}}
+                                        </tbody>
+                                    </table>
+                                </div>
+
+                                <div class="footer">
+                                    <hr>
+                                    <div class="stats">
+                                        <i class="fa fa-history"></i> Zaktualizowano 5 min. temu
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+				
+				<div class="row">
+                    <div class="col-md-12">
+                        <div class="card ">
+                            <div class="header">
+                                <h4 class="title">ZADANIA CYKLICZNE</h4>
+                            </div>
+                            <div class="content">
+                                <div class="table-full-width">
+                                    <table class="table">
+                                        <tbody>
+                                            {{#if repeatTasks}}
+                                                {{#each repeatTasks}}
+                                                    <tr>
+                                                        <td>
+                                                            <label class="checkbox">
+                                                                <input type="checkbox" value="" data-toggle="checkbox">
+                                                            </label>
+                                                        </td>
+                                                        <td>{{name}}</td>
+                                                        <td class="td-actions text-right">
+                                                            <button type="button" rel="tooltip" title="Task Completed" class="btn btn-danger btn-simple btn-xs complete-task" data-id={{_id}}>
+                                                                <i class="fa fa-times"></i>
+                                                            </button>
+                                                            <a href="/dashboard/editTask/{{_id}}">
+                                                                <button type="button" rel="tooltip" title="Edit Task" class="btn btn-info btn-simple btn-xs">
+                                                                    <i class="fa fa-edit"></i>
+                                                                </button>
+                                                            </a>
+                                                            <button type="button" rel="tooltip" title="Remove" class="btn btn-danger btn-simple btn-xs delete-task" data-id={{_id}}>
+                                                                <i class="fa fa-times"></i>
+                                                            </button>
+                                                        </td>
+                                                    </tr>
+                                                {{/each}}
+                                            {{/if}}
+                                        </tbody>
+                                    </table>
+                                </div>
+
+                                <div class="footer">
+                                    <hr>
+                                    <div class="stats">
+                                        <i class="fa fa-history"></i> Zaktualizowano 5 min. temu
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+				
+            </div>
+        </div>
+</div>

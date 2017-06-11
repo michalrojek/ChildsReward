@@ -1,0 +1,46 @@
+
+    <div class="main-panel">
+        <nav class="navbar navbar-default navbar-fixed">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navigation-example-2">
+                        <span class="sr-only">Włącz nawigację</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand" href="#">DODAWANIE DZIECKA</a>
+                </div>
+
+                <div class="collapse navbar-collapse">
+                    
+                </div>
+            </div>
+        </nav>
+
+        <div class="content">
+            {{#if errors}}
+                            {{#each errors}}
+                                <div class="alert alert-danger">{{msg}}</div>
+                            {{/each}}
+                        {{/if}}
+            <div class="container-fluid">
+                <div class="row">
+                    <form class="form-horizontal" method="post" action="/dashboard/addChild">
+                      <div class="form-group">
+                        <label for="inputEmail3" class="col-sm-2 control-label">Imię dziecka</label>
+                        <div class="col-sm-5">
+                          <input type="text" class="form-control" id="inputEmail3" placeholder="Imię dziecka" name="childName">
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <div class="col-sm-offset-2 col-sm-10">
+                          <button type="submit" class="btn btn-default">Dodaj dziecko</button>
+                        </div>
+                      </div>
+                    </form>
+
+                </div>
+            </div>
+        </div>
+</div>

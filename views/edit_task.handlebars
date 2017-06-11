@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Child's Reward - system zadanie-nagroda dla dzieci</title>
+        <link rel="stylesheet" href="/css/bootstrap.css">
+    </head>
+    <body>
+        <!--<a href="/dashboard" title="To dashboard">Dashboard</a>-->
+        {{#if errors}}
+            {{#each errors}}
+                <div class="alert alert-danger">{{msg}}</div>
+            {{/each}}
+        {{/if}}
+        <div class="container">
+            <form method="post" action="/dashboard/editTask/{{task._id}}">
+                <div id="form-group">
+                    <label for="name">Task name: </label>
+                    <input class="form-control" type="text" name="name" placeholder="Task name" id="name" value="{{task.name}}">
+                    <br>
+                </div>
+                <div id="form-group">
+                    <label for="desc">Task description: </label>
+                    <textarea class="form-control" name="desc" id="desc">{{task.desc}}</textarea>
+                    <br>
+                </div>
+                <div id="form-group">
+                    <label for="score">Score: </label>
+                    <input class="form-control" type="number" name="score" id="score" value="{{task.score}}">
+                    <br>
+                </div>
+                <div id="form-group">
+                    <fieldset>
+                        <legend>What's the type of task?</legend>
+                        <ul>
+                            <li>
+                                <label for="oneshot">One-shot</label>
+                                <input type="radio" id="oneshot" name="type" value="oneshot">
+                            </li>
+                            <li>
+                                <label for="repeat">Repeatable</label>
+                                <input type="radio" id="repeat" name="type" value="repeat">
+                            </li>
+                        </ul>
+                    </fieldset>
+                </div>
+                    <button type="submit">Submit</button>
+            </form>
+        </div>
+    </body>
+</html>

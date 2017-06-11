@@ -1,0 +1,84 @@
+<div class="main-panel">
+    <nav class="navbar navbar-default navbar-fixed">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navigation-example-2">
+                    <span class="sr-only">Włącz nawigację</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="#">DODAWANIE ZADANIA</a>
+            </div>
+
+            <div class="collapse navbar-collapse">
+                    
+            </div>
+        </div>
+    </nav>
+        
+    <div class="content">
+        {{#if errors}}
+            {{#each errors}}
+                <div class="alert alert-danger">{{msg}}</div>
+            {{/each}}
+        {{/if}}
+        <div class="container-fluid">
+            <div class="row">
+                <form class="form-horizontal" method="post" action="/dashboard/addTask">
+                    <div class="form-group">
+                        <label for="name" class="col-sm-2 control-label">Task name: </label>
+                        <div class="col-sm-5">
+                            <input class="form-control" type="text" name="name" placeholder="Task name" id="name">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="desc" class="col-sm-2 control-label">Task description: </label>
+                        <div class="col-sm-5">
+                            <textarea class="form-control" name="desc" id="desc">Desc</textarea>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="score" class="col-sm-2 control-label">Score: </label>
+                        <div class="col-sm-5">
+                            <input class="form-control" type="number" name="score" id="score">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="deadline" class="col-sm-2 control-label">Deadline:</label>
+                        <div class="col-sm-5">
+                            <input type="date" name="deadline" id="deadline">
+                        </div>
+                    </div>
+                        <fieldset class="form-group">
+                            <legend>What's the type of task?</legend>
+                                <div class="form-check">
+                                    <label for="oneshot" class="form-check-label">
+                                    <input type="radio" id="oneshot" name="type" value="oneshot" class="form-check-input">
+                                        One-shot</label>
+                                </div>
+                                <div class="form-check">
+                                    <label for="repeat" class="form-check-label">
+                                    <input type="radio" id="repeat" name="type" value="repeat" class="form-check-input">
+                                        Repeatable</label>
+                                </div>
+                        </fieldset>
+                        <fieldset class="form-group">
+                            <legend>What's the type of deadline?</legend>
+                                <div class="form-check">
+                                    <label for="everyDay" class="form-check-label">
+                                    <input type="radio" id="everyDay" name="deadlineType" value="everyDay" class="form-check-input">
+                                        Every day</label>
+                                </div>
+                                <div class="form-check">
+                                    <label for="everyWeek" class="form-check-label">
+                                    <input type="radio" id="everyWeek" name="deadlineType" value="everyWeek" class="form-check-input">
+                                        Every week</label>
+                                </div>
+                        </fieldset>
+                    <button type="submit">Submit</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
