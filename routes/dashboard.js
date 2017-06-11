@@ -47,13 +47,14 @@ var j = schedule.scheduleJob('* 0 * * *', function(){
 });
 
 function lookForCurChild(req, res, next) {
-    if(req.app.get('curChild') === undefined){
+    if(req.session.curChild === undefined){
        Child.findOne({parent: req.user._id}, function(err, child){
           if(err){
               console.log(err);
               return;
           } else {
-              req.app.set('curChild', child._id);
+              console.log(child._id);
+              req.session.curChild = child._id;
               return next();
           }
        });
@@ -63,7 +64,7 @@ function lookForCurChild(req, res, next) {
 }
 
 function findOneshot(req, res, next) {
-    Task.find({type: 1, author: req.user._id, child: req.app.get('curChild')}, function(err, tasks){
+    Task.find({type: 1, author: req.user._id, child: req.session.curChild}, function(err, tasks){
         if(err){
             console.log(err);
             return;
@@ -75,7 +76,7 @@ function findOneshot(req, res, next) {
 }
 
 function findRepeat(req, res, next) {
-    Task.find({type: 2, author: req.user._id, child: req.app.get('curChild'), isActive: true}, function(err, tasks){
+    Task.find({type: 2, author: req.user._id, child: req.session.curChild, isActive: true}, function(err, tasks){
         if(err){
             console.log(err);
             return;
@@ -90,8 +91,8 @@ function renderTasks(req, res) {
     res.render('profile_tasks', {
         oneshotTasks: req.oneshotTasks,
         repeatTasks: req.repeatTasks,
-        curChild: req.app.get('curChild'),
-        children: req.app.get('children')
+        curChild: req.session.curChild,
+        children: req.session.children
     });
 }
 
@@ -105,16 +106,16 @@ router.get('/', ensureAuthenticated, lookForCurChild, function(req, res){
             console.log(err);
             return;
         } else {
-            req.app.set('children', child);
+            req.session.children = child;
             res.render('dashboard', {
-                children: req.app.get('children')
+                children: req.session.children
             });
         }
     });
 });
 
 router.get('/addChild', ensureAuthenticated, function(req, res){
-   res.render('add_child', {children: req.app.get('children')}); 
+   res.render('add_child', {children: req.session.children}); 
 });
 
 router.post('/addChild', function(req, res){
@@ -150,13 +151,13 @@ router.get('/profile', ensureAuthenticated, findOneshot, findRepeat, renderTasks
 
 router.post('/profile', function(req, res){
    //console.log(req.body.selectProfile);
-    req.app.set('curChild', req.body.selectProfile);
+    req.session.curChild = req.body.selectProfile;
     //res.render('profile_tasks', {children: req.app.get('children')});
     res.redirect('/dashboard/profile');
 });
 
 router.get('/addTask', ensureAuthenticated, function(req, res){
-   res.render('add_task', {children: req.app.get('children')}); 
+   res.render('add_task', {children: req.session.children}); 
 });
 
 router.post('/addTask', function(req, res) {
@@ -183,7 +184,7 @@ router.post('/addTask', function(req, res) {
             task.type = 2;
         }
         task.author = req.user._id;
-        task.child = req.app.get('curChild');
+        task.child = req.session.curChild;
         task.deadline = req.body.deadline;
         task.isActive = true;
         
@@ -214,7 +215,7 @@ router.get('/editTask/:id', ensureAuthenticated, function(req, res){
     }
     res.render('edit_task', {
         task:task,
-        children: req.app.get('children')
+        children: req.session.children
     });
   });
 });
@@ -245,7 +246,7 @@ router.post('/editTask/:id', function(req, res){
 });
 
 router.get('/achievments', function(req, res){
-    Child.findById(req.app.get('curChild'), function(err, child){
+    Child.findById(req.session.curChild, function(err, child){
        if(err) {
            console.log(err);
        } else {
@@ -254,7 +255,7 @@ router.get('/achievments', function(req, res){
            Achievment.find({_id: {$in: child.achievments}}, function(err, achievments){
                     res.render('achievment', {
                         achievmentsRender: achievments,
-                        children: req.app.get('children')
+                        children: req.session.children
                     });
            });
        }
@@ -293,7 +294,7 @@ router.delete('/taskComplete/:id', function(req, res){
         if(task.author != req.user._id){
             res.status(500).send();
         } else {
-            Child.findById(req.app.get('curChild'), function(err, child){
+            Child.findById(req.session.curChild, function(err, child){
                if(err){ 
                    console.log(err);
                } else {
@@ -305,7 +306,7 @@ router.delete('/taskComplete/:id', function(req, res){
                         achievments.forEach(function(achievment){
                             newChild.achievments.push(achievment._id);
                         });
-                        Child.update({_id: req.app.get('curChild')}, newChild, function(err){
+                        Child.update({_id: req.session.curChild}, newChild, function(err){
                             if(err)
                                 console.log(err);
                         });
