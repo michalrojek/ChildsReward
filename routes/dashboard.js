@@ -16,9 +16,19 @@ function calculateNextDeadline(task){
         case 'everyDay':
             task.nextDeadline.setDate(dat.getDate() + 1);
             break;
+        case 'every3Days':
+            task.nextDeadline.setDate(dat.getDate() + 3);
+            break;
         case 'everyWeek':
             task.nextDeadline.setDate(dat.getDate() + 7);
             break;
+        case 'every2Weeks':
+            task.nextDeadline.setDate(dat.getDate() + 14);
+            break;
+        case 'everyMonth':
+            task.nextDeadline.setDate(dat.getDate() + 30);
+            break;
+            
     }
 }
 
@@ -113,9 +123,10 @@ router.get('/', ensureAuthenticated, lookForCurChild, function(req, res){
             return;
         } else {
             req.session.children = child;
-            res.render('dashboard', {
+            /*res.render('dashboard', {
                 children: req.session.children
-            });
+            });*/
+            res.redirect('/dashboard/profile');
         }
     });
 });
@@ -125,15 +136,15 @@ router.get('/addChild', ensureAuthenticated, function(req, res){
 });
 
 router.post('/addChild', function(req, res){
-    req.checkBody('childName', 'Name of child is required').notEmpty();
+    req.checkBody('childName', 'Imię dziecka jest wymagane').notEmpty();
     
     let errors = req.validationErrors();
     
     if(errors){
         console.log(errors);
         res.render('add_child', {
-            layout: '',
-            errors: errors
+            errors: errors,
+            children: req.session.children
         });
     } else {
         let child = new Child();
@@ -147,8 +158,8 @@ router.post('/addChild', function(req, res){
                return;
            } else {
                req.session.curChild = child._id;
-               req.flash('success_msg', 'Child added');
-               res.redirect('/');
+               req.flash('success_msg', 'Dziecko zostało dodane');
+               res.redirect('/dashboard/profile');
            }
         });
     }
@@ -168,20 +179,20 @@ router.get('/addTask', ensureAuthenticated, function(req, res){
 });
 
 router.post('/addTask', function(req, res) {
-    req.checkBody('name', 'Name of task is required').notEmpty();
-    req.checkBody('desc', 'Description of task is required').notEmpty();
-    req.checkBody('score', 'Score is required').notEmpty();
-    req.checkBody('type', 'Type is required').notEmpty();
-    req.checkBody('deadline', 'Deadline is required').notEmpty();
+    req.checkBody('name', 'Nazwa zadania jest wymagana').notEmpty();
+    req.checkBody('desc', 'Opis zadania jest wymagany').notEmpty();
+    req.checkBody('score', 'Ilość punktów jest wymagana').notEmpty();
+    req.checkBody('type', 'Typ zadania jest wymagany').notEmpty();
+    req.checkBody('deadline', 'Termin zadania jest wymagany').notEmpty();
     
     if(req.body.type === 'repeat') {
-        req.checkBody('deadlineType', 'Deadline type is required').notEmpty();
+        req.checkBody('deadlineType', 'Częstotliwość zadania cyklicznego jest wymagana').notEmpty();
     }
     
     let errors = req.validationErrors();
     
     if((new Date(req.body.deadline).getTime()<new Date().getTime())) {
-        var error = {param: 'deadline', msg: 'Deadline can\'t be less than today'};
+        var error = {param: 'deadline', msg: 'Termin nie może być z przeszłości'};
         if(!errors) {
             errors = [];
         }
@@ -241,14 +252,14 @@ router.get('/editTask/:id', ensureAuthenticated, function(req, res){
 
 // Update Submit POST Route
 router.post('/editTask/:id', function(req, res){
-    req.checkBody('name', 'Name of task is required').notEmpty();
-    req.checkBody('desc', 'Description of task is required').notEmpty();
-    req.checkBody('score', 'Score is required').notEmpty();
-    req.checkBody('type', 'Type is required').notEmpty();
-    req.checkBody('deadline', 'Deadline is required').notEmpty();
+    req.checkBody('name', 'Nazwa zadania jest wymagana').notEmpty();
+    req.checkBody('desc', 'Opis zadania jest wymagany').notEmpty();
+    req.checkBody('score', 'Ilość punktów jest wymagana').notEmpty();
+    req.checkBody('type', 'Typ zadania jest wymagany').notEmpty();
+    req.checkBody('deadline', 'Termin jest wymagany').notEmpty();
     
     if(req.body.type === 'repeat') {
-        req.checkBody('deadlineType', 'Deadline type is required').notEmpty();
+        req.checkBody('deadlineType', 'Częstotliwość zadania cyklicznego jest wymagana').notEmpty();
     }
     
     let errors = req.validationErrors();
@@ -257,7 +268,7 @@ router.post('/editTask/:id', function(req, res){
     
     if((new Date(req.body.deadline).getTime()<new Date().getTime())) {
         console.log("robie to dobrze");
-        var error = {param: 'deadline', msg: 'Deadline can\'t be less than today'};
+        var error = {param: 'deadline', msg: 'Termin nie może być z przeszłości'};
         if(!errors) {
             errors = [];
         }
@@ -304,7 +315,7 @@ router.post('/editTask/:id', function(req, res){
               console.log(err);
               return;
             } else {
-              req.flash('success', 'Task Updated');
+              req.flash('success_msg', 'Zadanie zostało zaktualizowane');
               res.redirect('/dashboard/profile');
             }
           });
@@ -351,6 +362,7 @@ router.delete('/task/:id', function(req, res){
                 if(err) {
                     console.log(err);
                 }
+                req.flash('success_msg', 'Zadanie zostało usunięte');
                 res.send('Success');
             });
         }
@@ -392,6 +404,7 @@ router.delete('/taskComplete/:id', function(req, res){
                     if(err) {
                         console.log(err);
                     }
+                    req.flash('success_msg', 'Zadanie zostało wykonane');
                     res.send('Success');
                 });
             } else {
@@ -401,6 +414,7 @@ router.delete('/taskComplete/:id', function(req, res){
                     if(err) {
                         console.log(err);
                     }
+                    req.flash('success_msg', 'Zadanie zostało wykonane');
                     res.send('Success');
                 });
             }
@@ -419,7 +433,7 @@ function ensureAuthenticated(req, res, next){
 
 router.get('/logout', function(req, res){
   req.logout();
-  req.flash('success', 'You are logged out');
+  req.flash('success_msg', 'Wylogowano');
   res.redirect('/');
 });
 

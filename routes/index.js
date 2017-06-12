@@ -28,19 +28,19 @@ router.post('/register', function(req, res){
     var password2 = req.body.password2_reg;
     
     // Validation
-    req.checkBody('name_reg', 'Name is required').notEmpty();
-    req.checkBody('username_reg', 'Username is required').notEmpty();
-    req.checkBody('mail_reg', 'Email is required').notEmpty();
-    req.checkBody('mail_reg', 'Email is not valid').isEmail();
-    req.checkBody('password_reg', 'Password is required').notEmpty();
-    req.checkBody('password2_reg', 'Passwords do not match').equals(req.body.password_reg);
+    req.checkBody('name_reg', 'Imię jest wymagane').notEmpty();
+    req.checkBody('username_reg', 'Nazwa użytkownika jest wymagana').notEmpty();
+    req.checkBody('mail_reg', 'Email jest wymagany').notEmpty();
+    req.checkBody('mail_reg', 'Email jest niepoprawny').isEmail();
+    req.checkBody('password_reg', 'Hasło jest wymagane').notEmpty();
+    req.checkBody('password2_reg', 'Hasła nie są takie same').equals(req.body.password_reg);
     
     var errors = req.validationErrors();
     
     User.findOne({ $or: [{username: username}, {email: email}]}, function(err, user){
         if(err) console.log(err);
         if(user && username != '' && email != '') {
-            var error = {param: 'mail_reg', msg: 'Username or email is already taken.'};
+            var error = {param: 'mail_reg', msg: 'Nazwa użytkownika lub email są już zajęte'};
             if(!errors) {
                 errors = [];
             }
@@ -63,7 +63,7 @@ router.post('/register', function(req, res){
                 console.log(user);
             });
 
-            req.flash('success_msg', 'You are registered and can now login');
+            req.flash('success_msg', 'Rejestracja przebiegła pomyślnie, możesz się zalogować');
 
             res.redirect('/');
         }
@@ -79,7 +79,7 @@ router.post('/login',
 
 router.get('/logout', function(req, res){
     req.logout();
-    req.flash('success_msg', 'You are logged out');
+    req.flash('success_msg', 'Wylogowano');
     res.redirect('/users/login');
 });
 

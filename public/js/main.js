@@ -7,7 +7,7 @@ $(document).ready(function(){
             type:'DELETE',
             url:'/dashboard/task/'+id,
             success: function(response){
-                alert('Deleting task');
+                //alert('Zadanie zostało usunięte');
                 window.location.href='/dashboard/profile';
             },
             error: function(err){
@@ -24,7 +24,7 @@ $(document).ready(function(){
             type:'DELETE',
             url:'/dashboard/taskComplete/'+id,
             success: function(response){
-                alert('Completeing task');
+                //alert('Zadanie zostało wykonane');
                 window.location.href='/dashboard/profile';
             },
             error: function(err){
