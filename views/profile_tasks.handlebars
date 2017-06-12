@@ -34,15 +34,11 @@
                                             {{#if oneshotTasks}}
                                                 {{#each oneshotTasks}}
                                                     <tr>
-                                                        <td>
-                                                            <label class="checkbox">
-                                                                <input type="checkbox" value="" data-toggle="checkbox">
-                                                            </label>
-                                                        </td>
-                                                        <td>{{name}}</td>
+                                                        <td><span title="{{desc}}"><b>Tytuł zdania:</b> {{name}}</span></td>
+                                                        <td><b>Termin:</b> {{dateFormat deadline "MM.DD.YYYY"}}</td>
                                                         <td class="td-actions text-right">
-                                                            <button type="button" rel="tooltip" title="Task Completed" class="btn btn-danger btn-simple btn-xs complete-task" data-id={{_id}}>
-                                                                <i class="fa fa-times"></i>
+                                                            <button type="button" rel="tooltip" title="Task Completed" class="btn btn-success btn-simple btn-xs complete-task" data-id={{_id}}>
+                                                                <i class="fa fa-check"></i>
                                                             </button>
                                                             <a href="/dashboard/editTask/{{_id}}">
                                                             <button type="button" rel="tooltip" title="Edit Task" class="btn btn-info btn-simple btn-xs">
@@ -63,7 +59,7 @@
                                 <div class="footer">
                                     <hr>
                                     <div class="stats">
-                                        <i class="fa fa-history"></i> Zaktualizowano 5 min. temu
+                                        
                                     </div>
                                 </div>
                             </div>
@@ -84,15 +80,11 @@
                                             {{#if repeatTasks}}
                                                 {{#each repeatTasks}}
                                                     <tr>
-                                                        <td>
-                                                            <label class="checkbox">
-                                                                <input type="checkbox" value="" data-toggle="checkbox">
-                                                            </label>
-                                                        </td>
-                                                        <td>{{name}}</td>
+                                                        <td><span title="{{desc}}"><b>Tytuł zdania:</b> {{name}}</span></td>
+                                                        <td><b>Termin:</b> {{dateFormat deadline "MM.DD.YYYY"}}</td>
                                                         <td class="td-actions text-right">
-                                                            <button type="button" rel="tooltip" title="Task Completed" class="btn btn-danger btn-simple btn-xs complete-task" data-id={{_id}}>
-                                                                <i class="fa fa-times"></i>
+                                                            <button type="button" rel="tooltip" title="Task Completed" class="btn btn-success btn-simple btn-xs complete-task" data-id={{_id}}>
+                                                                <i class="fa fa-check"></i>
                                                             </button>
                                                             <a href="/dashboard/editTask/{{_id}}">
                                                                 <button type="button" rel="tooltip" title="Edit Task" class="btn btn-info btn-simple btn-xs">
@@ -113,7 +105,7 @@
                                 <div class="footer">
                                     <hr>
                                     <div class="stats">
-                                        <i class="fa fa-history"></i> Zaktualizowano 5 min. temu
+                                        
                                     </div>
                                 </div>
                             </div>

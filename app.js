@@ -23,9 +23,16 @@ var dashboard = require('./routes/dashboard');
 // Init App
 var app = express();
 
+var hbs = exphbs.create({
+    helpers: {
+        'dateFormat': require('handlebars-dateformat')
+    },
+    defaultLayout:'layout'
+});
+
 //View Engine
 app.set('views', path.join(__dirname, 'views'));
-app.engine('handlebars', exphbs({defaultLayout:'layout'}));
+app.engine('handlebars', hbs.engine);
 app.set('view engine', 'handlebars');
 
 //Bodyparser Middleware

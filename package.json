@@ -18,6 +18,8 @@
     "express-messages": "*",
     "express-session": "*",
     "express-validator": "*",
+    "handlebars-dateformat": "^1.0.1",
+    "handlebars-intl": "^1.1.2",
     "mongodb": "*",
     "mongoose": "*",
     "node-schedule": "^1.2.3",
