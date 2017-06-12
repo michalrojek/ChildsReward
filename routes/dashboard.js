@@ -53,9 +53,14 @@ function lookForCurChild(req, res, next) {
               console.log(err);
               return;
           } else {
-              console.log(child._id);
-              req.session.curChild = child._id;
-              return next();
+              if(child) {
+                  console.log(child._id);
+                  req.session.curChild = child._id;
+                  return next();
+              } else {
+                  req.session.curChild = 1;
+                  return next();
+              }
           }
        });
     } else {
@@ -140,6 +145,7 @@ router.post('/addChild', function(req, res){
                console.log(err);
                return;
            } else {
+               req.session.curChild = child._id;
                req.flash('success_msg', 'Child added');
                res.redirect('/');
            }
@@ -246,20 +252,26 @@ router.post('/editTask/:id', function(req, res){
 });
 
 router.get('/achievments', function(req, res){
-    Child.findById(req.session.curChild, function(err, child){
-       if(err) {
-           console.log(err);
-       } else {
-           let newChild = child;
-           console.log(newChild.achievments);
-           Achievment.find({_id: {$in: child.achievments}}, function(err, achievments){
-                    res.render('achievment', {
-                        achievmentsRender: achievments,
+    if(req.session.curChild === 1) {
+        res.render('achievment', {
                         children: req.session.children
                     });
-           });
-       }
-    });
+    } else {
+        Child.findById(req.session.curChild, function(err, child){
+           if(err) {
+               console.log(err);
+           } else {
+               let newChild = child;
+               console.log(newChild.achievments);
+               Achievment.find({_id: {$in: child.achievments}}, function(err, achievments){
+                        res.render('achievment', {
+                            achievmentsRender: achievments,
+                            children: req.session.children
+                        });
+               });
+           }
+        });
+    }
 });
 
 router.delete('/task/:id', function(req, res){

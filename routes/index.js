@@ -29,35 +29,46 @@ router.post('/register', function(req, res){
     
     // Validation
     req.checkBody('name_reg', 'Name is required').notEmpty();
+    req.checkBody('username_reg', 'Username is required').notEmpty();
     req.checkBody('mail_reg', 'Email is required').notEmpty();
     req.checkBody('mail_reg', 'Email is not valid').isEmail();
-    req.checkBody('username_reg', 'Username is required').notEmpty();
     req.checkBody('password_reg', 'Password is required').notEmpty();
     req.checkBody('password2_reg', 'Passwords do not match').equals(req.body.password_reg);
     
     var errors = req.validationErrors();
     
-    if(errors) {
-        req.flash('errors', errors);
+    User.findOne({ $or: [{username: username}, {email: email}]}, function(err, user){
+        if(err) console.log(err);
+        if(user && username != '' && email != '') {
+            var error = {param: 'mail_reg', msg: 'Username or email is already taken.'};
+            if(!errors) {
+                errors = [];
+            }
+            errors.push(error);
+        }
         
-        res.redirect('/#register');
-    } else {
-        var newUser = new User({
-            name: name,
-            email: email,
-            username: username,
-            password: password
-        });
-        
-        User.createUser(newUser, function(err, user){
-            if(err) throw err;
-            console.log(user);
-        });
-        
-        req.flash('success_msg', 'You are registered and can now login');
-        
-        res.redirect('/');
-    }
+        if(errors) {
+            req.flash('errors', errors);
+            res.redirect('/#register');
+        } else {
+            var newUser = new User({
+                name: name,
+                email: email,
+                username: username,
+                password: password
+            });
+
+            User.createUser(newUser, function(err, user){
+                if(err) throw err;
+                console.log(user);
+            });
+
+            req.flash('success_msg', 'You are registered and can now login');
+
+            res.redirect('/');
+        }
+         
+    });
 });
 
 router.post('/login',
