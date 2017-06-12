@@ -159,7 +159,7 @@ router.post('/addChild', function(req, res){
            } else {
                req.session.curChild = child._id;
                req.flash('success_msg', 'Dziecko zostało dodane');
-               res.redirect('/dashboard/profile');
+               res.redirect('/dashboard');
            }
         });
     }
