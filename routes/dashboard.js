@@ -201,7 +201,8 @@ router.post('/addTask', function(req, res) {
     
     if(errors){
         res.render('add_task', {
-            errors: errors
+            errors: errors,
+            children: req.session.children
         });
     } else {
         let task = new Task();
