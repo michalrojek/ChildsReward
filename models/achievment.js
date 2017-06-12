@@ -8,6 +8,10 @@ let achievmentSchema = mongoose.Schema({
     score: {
         type: Number,
         required: true
+    },
+    desc: {
+        type: String,
+        required: true
     }
 });
 

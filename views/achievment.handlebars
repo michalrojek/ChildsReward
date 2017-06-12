@@ -24,8 +24,17 @@
                 <div class="row">
                     <div class="col-md-12">
                         <div class="card ">
+                            <div class="content">
+                                <b>Punkty: </b>{{child.score}}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="card ">
                             <div class="header">
-                                <h4 class="title">Odznaczenia</h4>
+                                <h4 class="title">ODZNACZENIA I NAGRODY</h4>
                             </div>
                             <div class="content">
                                 <div class="table-full-width">
@@ -34,9 +43,9 @@
                                             {{#if achievmentsRender}}
                                                 {{#each achievmentsRender}}
                                                     <tr>
-                                                        
-                                                        <td>{{name}}</td>
-                                                       
+                                                        <td><b>Tytuł zdania:</b> {{name}}</td>
+                                                        <td><b>Opis:</b> {{desc}}</td>
+
                                                     </tr>
                                                 {{/each}}
                                             {{/if}}
@@ -47,7 +56,7 @@
                                 <div class="footer">
                                     <hr>
                                     <div class="stats">
-                                        <i class="fa fa-history"></i> Zaktualizowano 5 min. temu
+                                        
                                     </div>
                                 </div>
                             </div>

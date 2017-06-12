@@ -11,6 +11,7 @@ let Achievment = require('../models/achievment');
 
 function calculateNextDeadline(task){
     var dat = new Date(task.deadline);
+    task.nextDeadline = new Date();
     switch(task.typeOfDeadline) {
         case 'everyDay':
             task.nextDeadline.setDate(dat.getDate() + 1);
@@ -173,7 +174,19 @@ router.post('/addTask', function(req, res) {
     req.checkBody('type', 'Type is required').notEmpty();
     req.checkBody('deadline', 'Deadline is required').notEmpty();
     
+    if(req.body.type === 'repeat') {
+        req.checkBody('deadlineType', 'Deadline type is required').notEmpty();
+    }
+    
     let errors = req.validationErrors();
+    
+    if((new Date(req.body.deadline).getTime()<new Date().getTime())) {
+        var error = {param: 'deadline', msg: 'Deadline can\'t be less than today'};
+        if(!errors) {
+            errors = [];
+        }
+        errors.push(error);
+    }
     
     if(errors){
         res.render('add_task', {
@@ -228,27 +241,75 @@ router.get('/editTask/:id', ensureAuthenticated, function(req, res){
 
 // Update Submit POST Route
 router.post('/editTask/:id', function(req, res){
-  let task = {};
-  task.name = req.body.name;
-    task.desc = req.body.desc;
-    task.score = req.body.score;
-    if(req.body.type === 'oneshot') {
-        task.type = 1;
-    } else if(req.body.type === 'repeat') {
-        task.type = 2;
+    req.checkBody('name', 'Name of task is required').notEmpty();
+    req.checkBody('desc', 'Description of task is required').notEmpty();
+    req.checkBody('score', 'Score is required').notEmpty();
+    req.checkBody('type', 'Type is required').notEmpty();
+    req.checkBody('deadline', 'Deadline is required').notEmpty();
+    
+    if(req.body.type === 'repeat') {
+        req.checkBody('deadlineType', 'Deadline type is required').notEmpty();
     }
-
-  let query = {_id:req.params.id}
-
-  Task.update(query, task, function(err){
-    if(err){
-      console.log(err);
-      return;
+    
+    let errors = req.validationErrors();
+    
+    console.log("deadline: "+(new Date(req.body.deadline).getTime()<new Date().getTime()))
+    
+    if((new Date(req.body.deadline).getTime()<new Date().getTime())) {
+        console.log("robie to dobrze");
+        var error = {param: 'deadline', msg: 'Deadline can\'t be less than today'};
+        if(!errors) {
+            errors = [];
+        }
+        errors.push(error);
+    }
+    
+    if(errors){
+        Task.findById(req.params.id, function(err, task){
+            if(task.author != req.user._id){
+              req.flash('danger', 'Not Authorized');
+              res.redirect('/');
+            }
+            res.render('edit_task', {
+                errors: errors,
+                task:task,
+                children: req.session.children
+            });
+          });
     } else {
-      req.flash('success', 'Task Updated');
-      res.redirect('/');
+        let task = {};
+        task.name = req.body.name;
+        task.desc = req.body.desc;
+        task.score = req.body.score;
+        if(req.body.type === 'oneshot') {
+            task.type = 1;
+        } else if(req.body.type === 'repeat') {
+            task.type = 2;
+        }
+        task.author = req.user._id;
+        task.child = req.session.curChild;
+        task.deadline = req.body.deadline;
+        task.isActive = true;
+        
+        if(task.type === 2) {
+            task.typeOfDeadline = req.body.deadlineType;
+            task.nextDeadline = req.body.deadline;
+            calculateNextDeadline(task);
+        }
+        
+          let query = {_id:req.params.id}
+
+          Task.update(query, task, function(err){
+            if(err){
+              console.log(err);
+              return;
+            } else {
+              req.flash('success', 'Task Updated');
+              res.redirect('/dashboard/profile');
+            }
+          });
+
     }
-  });
 });
 
 router.get('/achievments', function(req, res){
@@ -265,6 +326,7 @@ router.get('/achievments', function(req, res){
                console.log(newChild.achievments);
                Achievment.find({_id: {$in: child.achievments}}, function(err, achievments){
                         res.render('achievment', {
+                            child: child,
                             achievmentsRender: achievments,
                             children: req.session.children
                         });
