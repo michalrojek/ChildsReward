@@ -339,7 +339,7 @@ router.get('/achievments', function(req, res){
                Achievment.find({_id: {$in: child.achievments}}, function(err, achievments){
                         res.render('achievment', {
                             child: child,
-                            achievmentsRender: achievments,
+                            achievmentsRender: achievments.sort(function(a,b) {return (a.score > b.score) ? 1 : ((b.score > a.score) ? -1 : 0);} ),
                             children: req.session.children
                         });
                });
