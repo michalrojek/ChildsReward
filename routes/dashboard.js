@@ -335,6 +335,7 @@ router.get('/achievments', function(req, res){
                console.log(err);
            } else {
                let newChild = child;
+               console.log(newChild instanceof Task);
                console.log(newChild.achievments);
                Achievment.find({_id: {$in: child.achievments}}, function(err, achievments){
                         res.render('achievment', {
