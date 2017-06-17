@@ -33,6 +33,7 @@
                                     <ul class="nav nav-tabs navbar-right">
                                         <li><a data-toggle="tab" href="#register">Zarejestruj się</a></li>
                                         <li class="active"><a data-toggle="tab" href="#login">Zaloguj</a></li>
+                                        <li><a data-toggle="tab" href="#childlogin">Zaloguj - dziecko</a></li>
                                     </ul>
                                 </div>
                             </div>
@@ -92,6 +93,32 @@
                                         <div class="form-details">
                                             <label class="user">
                                                 <input type="text" name="username" placeholder="Nazwa użytkownika" id="username">
+                                            </label>
+                                            <label class="pass">
+                                                <input type="password" name="password" placeholder="Hasło" id="password">
+                                            </label>
+                                        </div>
+                                        <button type="submit" class="btn btn-primary" onsubmit="">Zatwierdź</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="childlogin" class="tab-pane">
+                            <div class="login-inner">
+                                <div class="title">
+                                    <h1>WITAJ <span>PONOWNIE!</span></h1>
+                                </div>
+                                {{#if success_msg}}
+                                    <div class="text-center alert alert-success">{{success_msg}}</div>
+                                {{/if}}
+                                {{#if error}}
+                                    <div class="text-center alert alert-danger">{{error}}</div>
+                                {{/if}}
+                                <div class="login-form">
+                                    <form method="post" action="/childlogin">
+                                        <div class="form-details">
+                                            <label class="user">
+                                                <input type="text" name="username" placeholder="Nazwa użytkownika - dziecko" id="username">
                                             </label>
                                             <label class="pass">
                                                 <input type="password" name="password" placeholder="Hasło" id="password">

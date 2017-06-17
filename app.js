@@ -17,8 +17,8 @@ mongoose.connect(config.database);
 var db = mongoose.connection;
 
 var index = require('./routes/index');
-var users = require('./routes/users');
 var dashboard = require('./routes/dashboard');
+var childDashboard = require('./routes/childDashboard');
 
 // Init App
 var app = express();
@@ -89,8 +89,8 @@ app.use(function (req, res, next) {
 });
 
 app.use('/', index);
-app.use('/users', users);
 app.use('/dashboard', dashboard);
+app.use('/childDashboard', childDashboard);
 
 app.set('port', (process.env.PORT || 3000));
 

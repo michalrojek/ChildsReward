@@ -91,6 +91,24 @@
                                         Co miesiąc</label>
                                 </div>
                         </fieldset>
+                        <div class="form-group">
+                            <label for="prize" class="col-sm-2 control-label">Opcjonalna nagroda:</label>
+                            <div class="col-sm-5">
+                                <input type="checkbox" name="prize" id="prize" {{#if prize}}checked{{/if}} {{#if prize}}{{#each prize}}value="{{_id}}"{{/each}}{{else}}value="prize"{{/if}}>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="prizeName" class="col-sm-2 control-label">Nazwa nagrody: </label>
+                            <div class="col-sm-5">
+                                <input class="form-control" type="text" name="prizeName" placeholder="Nazwa zadania" id="prizeName" {{#if prize}}{{#each prize}}value="{{name}}"{{/each}}{{/if}}>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="prizeDesc" class="col-sm-2 control-label">Opis nagrody: </label>
+                            <div class="col-sm-5">
+                                <textarea class="form-control" name="prizeDesc" id="desc" placeholder="Opis nagrody">{{#if prize}}{{#each prize}}{{desc}}{{/each}}{{/if}}</textarea>
+                            </div>
+                        </div>
                     <button type="submit">Submit</button>
                 </form>
             </div>

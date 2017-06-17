@@ -8,11 +8,10 @@
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                     </button>
-                    <a class="navbar-brand" href="#">STATYSTYKI</a>
+                    <a class="navbar-brand" href="#">LISTA ZADAŃ</a>
                 </div>
 
                 <div class="collapse navbar-collapse">
-                    
                 </div>
             </div>
         </nav>
@@ -24,28 +23,19 @@
                 <div class="row">
                     <div class="col-md-12">
                         <div class="card ">
-                            <div class="content">
-                                <b>Punkty: </b>{{child.score}}
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-12">
-                        <div class="card ">
                             <div class="header">
-                                <h4 class="title">ODZNACZENIA I NAGRODY</h4>
+                                <h4 class="title">ZADANIA JEDNORAZOWE</h4>
                             </div>
                             <div class="content">
                                 <div class="table-full-width">
                                     <table class="table">
                                         <tbody>
-                                            {{#if achievmentsRender}}
-                                                {{#each achievmentsRender}}
+                                            {{#if oneshotTasks}}
+                                                {{#each oneshotTasks}}
                                                     <tr>
-                                                        <td><b>Tytuł odznaczenia:</b> {{name}}</td>
-                                                        <td><b>Opis:</b> {{desc}}</td>
-
+                                                        <td><span title="{{desc}}"><b>Tytuł zdania:</b> {{name}}</span></td>
+                                                        <td><b>Termin:</b> {{dateFormat deadline "MM.DD.YYYY"}}</td>
+                                                        <td><b>Punkty za wykonanie:</b> {{score}}</td>
                                                     </tr>
                                                 {{/each}}
                                             {{/if}}
@@ -63,22 +53,23 @@
                         </div>
                     </div>
                 </div>
-                <div class="row">
+				
+				<div class="row">
                     <div class="col-md-12">
                         <div class="card ">
                             <div class="header">
-                                <h4 class="title">NAGRODY</h4>
+                                <h4 class="title">ZADANIA CYKLICZNE</h4>
                             </div>
                             <div class="content">
                                 <div class="table-full-width">
                                     <table class="table">
                                         <tbody>
-                                            {{#if prizesRender}}
-                                                {{#each prizesRender}}
+                                            {{#if repeatTasks}}
+                                                {{#each repeatTasks}}
                                                     <tr>
-                                                        <td><b>Tytuł nagrody:</b> {{name}}</td>
-                                                        <td><b>Opis:</b> {{desc}}</td>
-
+                                                        <td><span title="{{desc}}"><b>Tytuł zdania:</b> {{name}}</span></td>
+                                                        <td><b>Termin:</b> {{dateFormat deadline "MM.DD.YYYY"}}</td>
+                                                        <td><b>Punkty za wykonanie:</b> {{score}}</td>
                                                     </tr>
                                                 {{/each}}
                                             {{/if}}
@@ -96,6 +87,7 @@
                         </div>
                     </div>
                 </div>
+				
             </div>
         </div>
 </div>

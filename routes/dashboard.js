@@ -1,13 +1,27 @@
 const express = require('express');
 const router = express.Router();
 const schedule = require('node-schedule');
+const bcrypt = require('bcryptjs');
 
 let User = require('../models/user');
 let Task = require('../models/task');
+let PredefinedTask = require('../models/predefined-task');
 let Child = require('../models/child');
 let Achievment = require('../models/achievment');
+let Prize = require('../models/prize');
 
 //var date = new Date(2017, 5, 11, 12, 43, 20);
+
+let predefinedtask = new PredefinedTask();
+predefinedtask.name = 'Pozmywać naczynia';
+predefinedtask.desc = 'Pozbierać i pozmywać naczynia w całym obrębie domu/mieszkania';
+predefinedtask.score = 150;
+predefinedtask.save(function(err){
+    if(err) {
+        console.log(err);
+        return;
+    }
+})
 
 function calculateNextDeadline(task){
     var dat = new Date(task.deadline);
@@ -137,6 +151,9 @@ router.get('/addChild', ensureAuthenticated, function(req, res){
 
 router.post('/addChild', function(req, res){
     req.checkBody('childName', 'Imię dziecka jest wymagane').notEmpty();
+    req.checkBody('childLogin', 'Login dziecka jest wymagany').notEmpty();
+    req.checkBody('password1', 'Hasło jest wymagane').notEmpty();
+    req.checkBody('password2', 'Hasła nie są takie same').equals(req.body.password1);
     
     let errors = req.validationErrors();
     
@@ -151,16 +168,27 @@ router.post('/addChild', function(req, res){
         child.name = req.body.childName;
         child.parent = req.user._id;
         child.score = 0;
+        child.achievments = [];
+        child.prizes = [];
+        child.login = req.body.childLogin;
         
-        child.save(function(err){
-           if(err) {
-               console.log(err);
-               return;
-           } else {
-               req.session.curChild = child._id;
-               req.flash('success_msg', 'Dziecko zostało dodane');
-               res.redirect('/dashboard');
-           }
+        bcrypt.genSalt(10, function(err, salt){
+            bcrypt.hash(req.body.password1, salt, function(err, hash){
+                if(err){
+                    console.log(err);
+                }
+                child.password = hash;
+                child.save(function(err){
+                    if(err) {
+                        console.log(err);
+                        return;
+                    } else {
+                        req.session.curChild = child._id;
+                        req.flash('success_msg', 'Dziecko zostało dodane');
+                        res.redirect('/dashboard');
+                    }
+                });
+            });
         });
     }
 });
@@ -172,6 +200,25 @@ router.post('/profile', function(req, res){
     req.session.curChild = req.body.selectProfile;
     //res.render('profile_tasks', {children: req.app.get('children')});
     res.redirect('/dashboard/profile');
+});
+
+router.get('/taskType', ensureAuthenticated, function(req, res){
+    PredefinedTask.find({},function(err, tasks){
+        res.render('task_type', {
+            children: req.session.children,
+            predefinedTasks: tasks
+        });
+    });
+});
+
+router.post('/taskType', function(req, res){
+    let predefinedTask = req.body.selectTaskType;
+    PredefinedTask.findById(predefinedTask, function(err, task){
+        res.render('add_task', {
+            children: req.session.children,
+            predefinedTask: task
+        });
+    });
 });
 
 router.get('/addTask', ensureAuthenticated, function(req, res){
@@ -187,6 +234,11 @@ router.post('/addTask', function(req, res) {
     
     if(req.body.type === 'repeat') {
         req.checkBody('deadlineType', 'Częstotliwość zadania cyklicznego jest wymagana').notEmpty();
+    }
+    
+    if(req.body.prize){
+        req.checkBody('prizeName', 'Nazwa nagrody jest wymagana').notEmpty();
+        req.checkBody('prizeDesc', 'Opis nagrody jest wymagany').notEmpty();
     }
     
     let errors = req.validationErrors();
@@ -225,6 +277,21 @@ router.post('/addTask', function(req, res) {
             calculateNextDeadline(task);
         }
         
+        if(req.body.prize){
+            let prize = new Prize();
+            prize.name = req.body.prizeName;
+            prize.desc = req.body.prizeDesc;
+            prize.author = req.user._id;
+            prize.child = req.session.curChild;
+            prize.task = task._id;
+            prize.save(function(err){
+                if(err) {
+                    console.log(err);
+                    return;
+                }
+            });
+        }
+        
         task.save(function(err) {
             if(err) {
                 console.log(err);
@@ -244,10 +311,20 @@ router.get('/editTask/:id', ensureAuthenticated, function(req, res){
       req.flash('danger', 'Not Authorized');
       res.redirect('/');
     }
-    res.render('edit_task', {
-        task:task,
-        children: req.session.children
-    });
+    Prize.find({task: task._id}, function(err, prize){
+        if(prize){
+            res.render('edit_task', {
+                task:task,
+                prize: prize,
+                children: req.session.children
+            });
+        } else {
+            res.render('edit_task', {
+                task:task,
+                children: req.session.children
+            });
+        }
+    })
   });
 });
 
@@ -261,6 +338,11 @@ router.post('/editTask/:id', function(req, res){
     
     if(req.body.type === 'repeat') {
         req.checkBody('deadlineType', 'Częstotliwość zadania cyklicznego jest wymagana').notEmpty();
+    }
+    
+    if(req.body.prize){
+        req.checkBody('prizeName', 'Nazwa nagrody jest wymagana').notEmpty();
+        req.checkBody('prizeDesc', 'Opis nagrody jest wymagany').notEmpty();
     }
     
     let errors = req.validationErrors();
@@ -309,6 +391,52 @@ router.post('/editTask/:id', function(req, res){
             calculateNextDeadline(task);
         }
         
+        if(!req.body.prize){
+            Prize.findOne({task: req.params.id}, function(err, prize){
+                if(prize){
+                    Prize.remove({task: req.params.id}, function(err){
+                        if(err) {
+                            console.log(err);
+                        }
+                    });
+                }
+            });
+        }
+        
+        if(req.body.prize && req.body.prize != 'prize'){
+            let query = {_id:req.body.prize};
+            
+            let prize = {};
+            prize.name = req.body.prizeName;
+            prize.desc = req.body.prizeDesc;
+            prize.author = req.user._id;
+            prize.child = req.session.curChild;
+            prize.task = req.params.id;
+            Prize.update(query, prize, function(err){
+                if(err){
+                  console.log(err);
+                  return;
+                } 
+              });
+        }
+        
+        if(req.body.prize && req.body.prize === 'prize'){
+            let query = {_id:req.body.prize};
+            
+            let prize = new Prize();
+            prize.name = req.body.prizeName;
+            prize.desc = req.body.prizeDesc;
+            prize.author = req.user._id;
+            prize.child = req.session.curChild;
+            prize.task = req.params.id;
+            prize.save(function(err){
+                if(err) {
+                    console.log(err);
+                    return;
+                }
+            });
+        }
+        
           let query = {_id:req.params.id}
 
           Task.update(query, task, function(err){
@@ -338,11 +466,14 @@ router.get('/achievments', function(req, res){
                console.log(newChild instanceof Task);
                console.log(newChild.achievments);
                Achievment.find({_id: {$in: child.achievments}}, function(err, achievments){
-                        res.render('achievment', {
+                   Prize.find({_id: {$in: child.prizes}}, function(err, prizes){
+                      res.render('achievment', {
                             child: child,
                             achievmentsRender: achievments.sort(function(a,b) {return (a.score > b.score) ? 1 : ((b.score > a.score) ? -1 : 0);} ),
+                            prizesRender: prizes,
                             children: req.session.children
-                        });
+                        }); 
+                   });
                });
            }
         });
@@ -360,6 +491,16 @@ router.delete('/task/:id', function(req, res){
         if(task.author != req.user._id){
             res.status(500).send();
         } else {
+            Prize.findOne({task: task._id}, function(err, prize){
+                if(prize){
+                    Prize.remove({task: task._id}, function(err){
+                        if(err) {
+                            console.log(err);
+                        }
+                    });
+                }
+            });
+            
             Task.remove(query, function(err){
                 if(err) {
                     console.log(err);
@@ -394,10 +535,20 @@ router.delete('/taskComplete/:id', function(req, res){
                         achievments.forEach(function(achievment){
                             newChild.achievments.push(achievment._id);
                         });
-                        Child.update({_id: req.session.curChild}, newChild, function(err){
-                            if(err)
-                                console.log(err);
-                        });
+                       Prize.findOne({task: task._id}, function(err, prize){
+                          if(prize){
+                              if(newChild.prizes){
+                                  newChild.prizes.push(prize._id);
+                              } else {
+                                  newChild.prizes = [];
+                                  newChild.prizes.push(prize._id);
+                              }
+                          }
+                            Child.update({_id: req.session.curChild}, newChild, function(err){
+                                if(err)
+                                    console.log(err);
+                            });  
+                       });
                    });
                }
             });
@@ -425,7 +576,8 @@ router.delete('/taskComplete/:id', function(req, res){
 });
 
 function ensureAuthenticated(req, res, next){
-    if(req.isAuthenticated()) {
+    if(req.user instanceof User) {
+        //console.log(req);
         return next();
     } else {
         //req.flash('error_msg', 'You are not logged in');

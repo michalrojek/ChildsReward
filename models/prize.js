@@ -1,28 +1,26 @@
-let mongoose = require('mongoose');
+const mongoose = require('mongoose');
 
-let childSchema = mongoose.Schema({
+let prizeSchema = mongoose.Schema({
     name: {
         type: String,
         required: true
     },
-    parent: {
+    desc: {
         type: String,
         required: true
     },
-    score: {
-        type: Number,
-        required: true
-    },
-    achievments: [],
-    prizes: [],
-    login: {
+    author: {
         type: String,
         required: true
     },
-    password: {
+    child: {
+        type: String,
+        required: true
+    },
+    task: {
         type: String,
         required: true
     }
 });
 
-let Child = module.exports = mongoose.model('Child', childSchema);
+let Prize = module.exports = mongoose.model('Prize', prizeSchema); 

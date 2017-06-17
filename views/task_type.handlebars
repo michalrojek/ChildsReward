@@ -1,0 +1,45 @@
+    <div class="main-panel">
+        <nav class="navbar navbar-default navbar-fixed">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navigation-example-2">
+                        <span class="sr-only">Włącz nawigację</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand" href="#">DODAWANIE ZADANIA</a>
+                </div>
+
+                <div class="collapse navbar-collapse">
+                    
+                </div>
+            </div>
+        </nav>
+
+        <div class="content">
+            {{#if errors}}
+                            {{#each errors}}
+                                <div class="alert alert-danger">{{msg}}</div>
+                            {{/each}}
+                        {{/if}}
+            <div class="container-fluid">
+                <div class="row">
+                    <a href="/dashboard/addTask">Dodaj własne zadanie</a><br>
+
+                    <span>Lub wybierz jedno z naszych:</span>
+                    <form method="post" action="/dashboard/taskType">
+                        <select class="form-control" name="selectTaskType" id="selectTaskType">
+                            {{#if predefinedTasks}}
+                                {{#each predefinedTasks}}
+                                    <option value="{{_id}}" class="select-profile">{{name}}</option>
+                                {{/each}}
+                            {{/if}}
+                        </select>
+                        <button type="submit">Submit</button>
+                    </form>
+
+                </div>
+            </div>
+        </div>
+</div>

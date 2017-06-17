@@ -4,6 +4,7 @@ var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
 
 var User = require('../models/user');
+var Child = require('../models/child');
 
 // Get Homepage
 router.get('/', ensureAuthenticated, function(req, res){
@@ -11,8 +12,10 @@ router.get('/', ensureAuthenticated, function(req, res){
 });
 
 function ensureAuthenticated(req, res, next){
-    if(req.isAuthenticated()) {
+    if(req.user instanceof User) {
         res.redirect('/dashboard');
+    } else if (req.user instanceof Child) {
+        res.redirect('/childDashboard');
     } else {
         //req.flash('error_msg', 'You are not logged in');
         return next();
@@ -72,9 +75,15 @@ router.post('/register', function(req, res){
 });
 
 router.post('/login',
-  passport.authenticate('local', {successRedirect: '/dashboard', failureRedirect: '/', failureFlash: true}),
+  passport.authenticate('user', {successRedirect: '/dashboard', failureRedirect: '/', failureFlash: true}),
   function(req, res) {
     res.redirect('/dashboard');
+  });
+
+router.post('/childlogin',
+  passport.authenticate('child', {successRedirect: '/childDashboard', failureRedirect: '/#childlogin', failureFlash: true}),
+  function(req, res) {
+    res.redirect('/childDashboard');
   });
 
 router.get('/logout', function(req, res){
