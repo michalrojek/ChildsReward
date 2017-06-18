@@ -1,0 +1,104 @@
+<div class="main-panel">
+    <nav class="navbar navbar-default navbar-fixed">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navigation-example-2">
+                    <span class="sr-only">Włącz nawigację</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="#">DODAWANIE ZADANIA</a>
+            </div>
+
+            <div class="collapse navbar-collapse">
+                    
+            </div>
+        </div>
+    </nav>
+        
+    <div class="content">
+        {{#if errors}}
+            {{#each errors}}
+                <div class="alert alert-danger">{{msg}}</div>
+            {{/each}}
+        {{/if}}
+        <div class="container-fluid">
+            <div class="row">
+                <form class="form-horizontal" method="post" action="/dashboard/addTask/repeat">
+                    <div class="form-group">
+                        <label for="name" class="col-sm-2 control-label">Nazwa zadania: </label>
+                        <div class="col-sm-5">
+                            <input class="form-control" type="text" name="name" placeholder="Task name" id="name" {{#if predefinedTask}}value="{{predefinedTask.name}}"{{/if}}>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="desc" class="col-sm-2 control-label">Opis zadania: </label>
+                        <div class="col-sm-5">
+                            <textarea class="form-control" name="desc" id="desc">{{#if predefinedTask}}{{predefinedTask.desc}}{{/if}}</textarea>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="score" class="col-sm-2 control-label">Ilość punktów: </label>
+                        <div class="col-sm-5">
+                            <input class="form-control" type="number" name="score" id="score" {{#if predefinedTask}}value="{{predefinedTask.score}}"{{/if}}>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="deadline" class="col-sm-2 control-label">Termin:</label>
+                        <div class="col-sm-5">
+                            <input type="date" name="deadline" id="deadline">
+                        </div>
+                    </div>
+                    <fieldset class="form-group">
+                            <legend>Częstotliwość odnawiania zadania? (Dotyczy jedynie zadań cyklicznych)</legend>
+                                <div class="form-check">
+                                    <label for="everyDay" class="form-check-label">
+                                    <input type="radio" id="everyDay" name="deadlineType" value="everyDay" class="form-check-input">
+                                        Codziennie</label>
+                                </div>
+                                <div class="form-check">
+                                    <label for="every3Days" class="form-check-label">
+                                    <input type="radio" id="every3Days" name="deadlineType" value="every3Days" class="form-check-input">
+                                        Co 3 dni</label>
+                                </div>
+                                <div class="form-check">
+                                    <label for="everyWeek" class="form-check-label">
+                                    <input type="radio" id="everyWeek" name="deadlineType" value="everyWeek" class="form-check-input">
+                                        Co tydzień</label>
+                                </div>
+                                <div class="form-check">
+                                    <label for="every2Weeks" class="form-check-label">
+                                    <input type="radio" id="every2Weeks" name="deadlineType" value="every2Weeks" class="form-check-input">
+                                        Co 2 tygodnie</label>
+                                </div>
+                                <div class="form-check">
+                                    <label for="everyMonth" class="form-check-label">
+                                    <input type="radio" id="everyMonth" name="deadlineType" value="everyMonth" class="form-check-input">
+                                        Co miesiąc</label>
+                                </div>
+                        </fieldset>
+                        <div class="form-group">
+                            <label for="prize" class="col-sm-2 control-label">Opcjonalna nagroda:</label>
+                            <div class="col-sm-5">
+                                <input type="checkbox" name="prize" id="prize" value="prize">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="prizeName" class="col-sm-2 control-label">Nazwa nagrody: </label>
+                            <div class="col-sm-5">
+                                <input class="form-control" type="text" name="prizeName" placeholder="Nazwa zadania" id="prizeName">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="prizeDesc" class="col-sm-2 control-label">Opis nagrody: </label>
+                            <div class="col-sm-5">
+                                <textarea class="form-control" name="prizeDesc" id="desc" placeholder="Opis nagrody"></textarea>
+                            </div>
+                        </div>
+                    <button type="submit">Dodaj zadanie</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

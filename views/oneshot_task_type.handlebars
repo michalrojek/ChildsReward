@@ -25,10 +25,10 @@
                         {{/if}}
             <div class="container-fluid">
                 <div class="row">
-                    <a href="/dashboard/addTask">Dodaj własne zadanie</a><br>
+                    <a href="/dashboard/addTask/oneshot">Dodaj własne zadanie</a><br>
 
                     <span>Lub wybierz jedno z naszych:</span>
-                    <form method="post" action="/dashboard/taskType">
+                    <form method="post" action="/dashboard/oneshotTaskType">
                         <select class="form-control" name="selectTaskType" id="selectTaskType">
                             {{#if predefinedTasks}}
                                 {{#each predefinedTasks}}

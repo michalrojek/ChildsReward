@@ -25,7 +25,7 @@
         {{/if}}
         <div class="container-fluid">
             <div class="row">
-                <form class="form-horizontal" method="post" action="/dashboard/addTask">
+                <form class="form-horizontal" method="post" action="/dashboard/addTask/oneshot">
                     <div class="form-group">
                         <label for="name" class="col-sm-2 control-label">Nazwa zadania: </label>
                         <div class="col-sm-5">
@@ -50,47 +50,6 @@
                             <input type="date" name="deadline" id="deadline">
                         </div>
                     </div>
-                        <fieldset class="form-group">
-                            <legend>Typ zadania:</legend>
-                                <div class="form-check">
-                                    <label for="oneshot" class="form-check-label">
-                                    <input type="radio" id="oneshot" name="type" value="oneshot" class="form-check-input">
-                                        Jednorazowe</label>
-                                </div>
-                                <div class="form-check">
-                                    <label for="repeat" class="form-check-label">
-                                    <input type="radio" id="repeat" name="type" value="repeat" class="form-check-input">
-                                        Cykliczne</label>
-                                </div>
-                        </fieldset>
-                        <fieldset class="form-group">
-                            <legend>Częstotliwość odnawiania zadania? (Dotyczy jedynie zadań cyklicznych)</legend>
-                                <div class="form-check">
-                                    <label for="everyDay" class="form-check-label">
-                                    <input type="radio" id="everyDay" name="deadlineType" value="everyDay" class="form-check-input">
-                                        Codziennie</label>
-                                </div>
-                                <div class="form-check">
-                                    <label for="every3Days" class="form-check-label">
-                                    <input type="radio" id="every3Days" name="deadlineType" value="every3Days" class="form-check-input">
-                                        Co 3 dni</label>
-                                </div>
-                                <div class="form-check">
-                                    <label for="everyWeek" class="form-check-label">
-                                    <input type="radio" id="everyWeek" name="deadlineType" value="everyWeek" class="form-check-input">
-                                        Co tydzień</label>
-                                </div>
-                                <div class="form-check">
-                                    <label for="every2Weeks" class="form-check-label">
-                                    <input type="radio" id="every2Weeks" name="deadlineType" value="every2Weeks" class="form-check-input">
-                                        Co 2 tygodnie</label>
-                                </div>
-                                <div class="form-check">
-                                    <label for="everyMonth" class="form-check-label">
-                                    <input type="radio" id="everyMonth" name="deadlineType" value="everyMonth" class="form-check-input">
-                                        Co miesiąc</label>
-                                </div>
-                        </fieldset>
                         <div class="form-group">
                             <label for="prize" class="col-sm-2 control-label">Opcjonalna nagroda:</label>
                             <div class="col-sm-5">
