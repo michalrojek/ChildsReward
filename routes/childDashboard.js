@@ -10,7 +10,8 @@ let Achievment = require('../models/achievment');
 let Prize = require('../models/prize');
 
 router.get('/', ensureAuthenticated, function(req, res){
-    res.render('child_dashboard', {layout: 'child_layout'});
+    res.redirect('/childDashboard/tasks')
+    //res.render('child_dashboard', {layout: 'child_layout'});
 });
 
 function findOneshot(req, res, next) {
@@ -45,7 +46,7 @@ function renderTasks(req, res) {
     });
 }
 
-router.get('/profile', ensureAuthenticated, findOneshot, findRepeat, renderTasks);
+router.get('/tasks', ensureAuthenticated, findOneshot, findRepeat, renderTasks);
 
 router.get('/achievments', ensureAuthenticated, function(req, res){
         Child.findById(req.user._id, function(err, child){
@@ -56,15 +57,32 @@ router.get('/achievments', ensureAuthenticated, function(req, res){
                console.log(newChild instanceof Task);
                console.log(newChild.achievments);
                Achievment.find({_id: {$in: child.achievments}}, function(err, achievments){
-                   Prize.find({_id: {$in: child.prizes}}, function(err, prizes){
                       res.render('child_achievment', {
                             child: child,
                             achievmentsRender: achievments.sort(function(a,b) {return (a.score > b.score) ? 1 : ((b.score > a.score) ? -1 : 0);} ),
+                            layout: 'child_layout'
+                        }); 
+               });
+           }
+        });
+    
+});
+
+router.get('/rewards', ensureAuthenticated, function(req, res){
+        Child.findById(req.user._id, function(err, child){
+           if(err) {
+               console.log(err);
+           } else {
+               let newChild = child;
+               console.log(newChild instanceof Task);
+               console.log(newChild.achievments);
+                   Prize.find({_id: {$in: child.prizes}}, function(err, prizes){
+                      res.render('child_rewards', {
+                            child: child,
                             prizesRender: prizes,
                             layout: 'child_layout'
                         }); 
                    });
-               });
            }
         });
     

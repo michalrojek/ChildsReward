@@ -47,10 +47,10 @@
                     <div class="form-group">
                         <label for="deadline" class="col-sm-2 control-label">Termin:</label>
                         <div class="col-sm-5">
-                            <input type="date" name="deadline" id="deadline" value="value="{{task.deadline}}"">
+                            <input type="date" name="deadline" style="border: 1px solid #E3E3E3;height: 37px;text-align: center;border-radius: 4px;" id="deadline" value="value="{{task.deadline}}"">
                         </div>
                     </div>
-                        <fieldset class="form-group">
+                        <fieldset class="form-group" style="margin-left: 140px !important;margin-top: 50px;">
                             <legend>Typ zadania:</legend>
                                 <div class="form-check">
                                     <label for="oneshot" class="form-check-label">
@@ -63,7 +63,7 @@
                                         Cykliczne</label>
                                 </div>
                         </fieldset>
-                        <fieldset class="form-group">
+                        <fieldset class="form-group" style="margin-left: 140px !important;">
                             <legend>Częstotliwość odnawiania zadania? (Dotyczy jedynie zadań cyklicznych)</legend>
                                 <div class="form-check">
                                     <label for="everyDay" class="form-check-label">
@@ -91,7 +91,7 @@
                                         Co miesiąc</label>
                                 </div>
                         </fieldset>
-                        <div class="form-group">
+                        <div class="form-group" style="margin-left: 19px;">
                             <label for="prize" class="col-sm-2 control-label">Opcjonalna nagroda:</label>
                             <div class="col-sm-5">
                                 <input type="checkbox" name="prize" id="prize" {{#if prize}}checked{{/if}} {{#if prize}}{{#each prize}}value="{{_id}}"{{/each}}{{else}}value="prize"{{/if}}>
@@ -109,7 +109,7 @@
                                 <textarea class="form-control" name="prizeDesc" id="desc" placeholder="Opis nagrody">{{#if prize}}{{#each prize}}{{desc}}{{/each}}{{/if}}</textarea>
                             </div>
                         </div>
-                    <button type="submit">Submit</button>
+                    <button type="submit" class="chooseChildButton">Zatwierdź</button>
                 </form>
             </div>
         </div>

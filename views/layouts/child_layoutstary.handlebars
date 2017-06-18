@@ -20,7 +20,8 @@
     <!--  Light Bootstrap Table core CSS    -->
     <link href="/css/light-bootstrap-dashboard.css" rel="stylesheet"/>
 
-    <link href="/css/custom.css" rel="stylesheet" />
+    <!--  CSS for Demo Purpose, don't include it in your project     -->
+    <link href="/css/demo.css" rel="stylesheet" />
 
     <!--     Fonts and icons     -->
     <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
@@ -32,58 +33,31 @@
 <div class="wrapper">
     <div class="sidebar" data-color="black" data-image="/img/sidebar-5.jpg">
     	<div class="sidebar-wrapper">
-            <div class="logo">
+           <div class="logo">
 			<img src="/img/logo_m.png">
-                <a href="#" class="simple-text">
+                <a href="/dashboard" class="simple-text">
                     Child's Reward
-                </a><br /><div class="simple-text" style="border-top: 1px solid rgba(255, 255, 255, 0.2);">WYBIERZ DZIECKO<br />
-				<div style="margin-top:5px;">
-                    <form method="post" action="/dashboard/profile">
-                        <select class="form-control" name="selectProfile" id="selectProfile">
-                                {{#if children}}
-                                    {{#each children}}
-                                        <option value="{{_id}}" class="select-profile">{{name}}</option>
-                                    {{/each}}
-                                {{/if}}
-                        </select>
-                    <button type="submit" class="chooseChildButton">Zatwierdź</button></form></div></div>
+                </a>
+                <br/>
 				
             </div>
-
             <ul class="nav">
 			
-               <li class="">
-                    <a href="/dashboard/addChild">
-                        <i class="pe-7s-users"></i>
-                        <p>+ DODAJ DZIECKO</p>
-                    </a>
-                </li>
-                <li class="">
-                    <a href="/dashboard/oneshot">
-                        <i class="pe-7s-pen"></i>
-                        <p>ZADANIA JEDNORAZOWE</p>
-                    </a>
-                </li>
-				 <li>
-                    <a href="/dashboard/repeat">
-                        <i class="pe-7s-refresh"></i>
-                        <p>ZADANIA CYKLICZNE</p>
-                    </a>
-                </li>
-				<li>
-                    <a href="/dashboard/achievments">
-                        <i class="pe-7s-medal"></i>
-                        <p>ODZNACZENIA DZIECKA</p>
-                    </a>
-                </li>
                 <li>
-                    <a href="/dashboard/rewards">
-                        <i class="pe-7s-star"></i>
-                        <p>NAGRODY DZIECKA</p>
+                    <a href="/childDashboard/profile">
+                        <i class="pe-7s-medal"></i>
+                        <p>TWOJE ZADANIA</p>
                     </a>
                 </li>
 				<li>
-                    <a href="/dashboard/logout">
+                    <a href="/childDashboard/achievments">
+                        <i class="pe-7s-graph1"></i>
+                        <p>TWOJE STATYSTYKI</p>
+                    </a>
+                </li>
+                
+				<li>
+                    <a href="/childDashboard/logout">
                         <i class="pe-7s-power"></i>
                         <p><font color="#FF4500">WYLOGUJ SIĘ</font></p>
                     </a>
@@ -91,9 +65,11 @@
             </ul>
     	</div>
     </div>
-    {{{body}}}
-</div>
 
+        {{{body}}}
+
+    
+</div>
 
 </body>
 
@@ -110,4 +86,5 @@
     <!-- Light Bootstrap Table Core javascript and methods for Demo purpose -->
 	<script src="/js/light-bootstrap-dashboard.js"></script>
     <script src="/js/main.js"></script>
+
 </html>

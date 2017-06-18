@@ -25,9 +25,9 @@
                         {{/if}}
             <div class="container-fluid">
                 <div class="row">
-                    <a href="/dashboard/addTask/repeat">Dodaj własne zadanie</a><br>
+                    <a href="/dashboard/addTask/repeat" class="btn btn-default" style="margin-bottom:10px;">Dodaj własne zadanie</a><br>
 
-                    <span>Lub wybierz jedno z naszych:</span>
+                    <span style="line-height: 33px;">Lub wybierz jedno z naszych:<br></span>
                     <form method="post" action="/dashboard/repeatTaskType">
                         <select class="form-control" name="selectTaskType" id="selectTaskType">
                             {{#if predefinedTasks}}
@@ -36,7 +36,7 @@
                                 {{/each}}
                             {{/if}}
                         </select>
-                        <button type="submit">Submit</button>
+                        <button type="submit" class="chooseChildButton">Zatwierdź</button>
                     </form>
 
                 </div>

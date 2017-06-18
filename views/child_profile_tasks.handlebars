@@ -1,4 +1,4 @@
-    <div class="main-panel">
+<div class="main-panel">
         <nav class="navbar navbar-default navbar-fixed">
             <div class="container-fluid">
                 <div class="navbar-header">
@@ -12,82 +12,73 @@
                 </div>
 
                 <div class="collapse navbar-collapse">
+                   
                 </div>
             </div>
         </nav>
-<div class="content">
+
+
+        <div class="content">
             <div class="container-fluid">
-                {{#if success_msg}}
-                    <div class="alert alert-success">{{success_msg}}</div>
-                {{/if}}
                 <div class="row">
+				
                     <div class="col-md-12">
-                        <div class="card ">
-                            <div class="header">
-                                <h4 class="title">ZADANIA JEDNORAZOWE</h4>
-                            </div>
-                            <div class="content">
-                                <div class="table-full-width">
-                                    <table class="table">
-                                        <tbody>
-                                            {{#if oneshotTasks}}
+					                       {{#if oneshotTasks}}
                                                 {{#each oneshotTasks}}
-                                                    <tr>
-                                                        <td><span title="{{desc}}"><b>Tytuł zdania:</b> {{name}}</span></td>
-                                                        <td><b>Termin:</b> {{dateFormat deadline "MM.DD.YYYY"}}</td>
-                                                        <td><b>Punkty za wykonanie:</b> {{score}}</td>
-                                                    </tr>
+                                                     <div class='col-sm-3'>
+                                                        <div class="panel panel-default">
+                                                          <div class="panel-heading">
+                                                            <h4 class='panel-title text-center'>{{name}}</h4>
+                                                          </div>
+                                                            <div class="img-responsive"> <img src="stock_photos/naczynia.jpg" class="img-responsive"></div>
+                                                          <div class="panel-body">
+
+                                                            <p>
+                                                              {{desc}}
+                                                            </p>
+                                                              <p>Termin: {{dateFormat deadline "MM.DD.YYYY"}}</p>
+                                                          </div>
+                                                          <div class='panel-footer'>
+                                                            <a href="#" class="btn btn-primary btn-info"><span class="glyphicon glyphicon-list-alt"></span> PUNKTY: {{score}}</a>
+                                                            <a href="#" class="btn btn-primary pull-right"><span class="glyphicon glyphicon-ok"></span> NAGRODA</a>
+                                                          </div>
+                                                        </div>
+                                                      </div>
                                                 {{/each}}
                                             {{/if}}
-                                        </tbody>
-                                    </table>
-                                </div>
+				                            {{#if repeatTasks}}
+                                                {{#each repeatTasks}}
+                                                     <div class='col-sm-3'>
+                                                        <div class="panel panel-default">
+                                                          <div class="panel-heading">
+                                                            <h4 class='panel-title text-center'>{{name}}</h4>
+                                                          </div>
+                                                            <div class="img-responsive"> <img src="stock_photos/naczynia.jpg" class="img-responsive"></div>
+                                                          <div class="panel-body">
 
-                                <div class="footer">
-                                    <hr>
-                                    <div class="stats">
-                                        
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                                                            <p>
+                                                              {{desc}}
+                                                            </p>
+                                                              <p>Termin: {{dateFormat deadline "MM.DD.YYYY"}}</p>
+                                                          </div>
+                                                          <div class='panel-footer'>
+                                                            <a href="#" class="btn btn-primary btn-info"><span class="glyphicon glyphicon-list-alt"></span> PUNKTY: {{score}}</a>
+                                                            <a href="#" class="btn btn-primary pull-right"><span class="glyphicon glyphicon-ok"></span> NAGRODA</a>
+                                                          </div>
+                                                        </div>
+                                                      </div>
+                                                {{/each}}
+                                            {{/if}}
+
+
+  
+
+					
                     </div>
                 </div>
 				
-				<div class="row">
-                    <div class="col-md-12">
-                        <div class="card ">
-                            <div class="header">
-                                <h4 class="title">ZADANIA CYKLICZNE</h4>
-                            </div>
-                            <div class="content">
-                                <div class="table-full-width">
-                                    <table class="table">
-                                        <tbody>
-                                            {{#if repeatTasks}}
-                                                {{#each repeatTasks}}
-                                                    <tr>
-                                                        <td><span title="{{desc}}"><b>Tytuł zdania:</b> {{name}}</span></td>
-                                                        <td><b>Termin:</b> {{dateFormat deadline "MM.DD.YYYY"}}</td>
-                                                        <td><b>Punkty za wykonanie:</b> {{score}}</td>
-                                                    </tr>
-                                                {{/each}}
-                                            {{/if}}
-                                        </tbody>
-                                    </table>
-                                </div>
-
-                                <div class="footer">
-                                    <hr>
-                                    <div class="stats">
-                                        
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+				
 				
             </div>
         </div>
-</div>
+    </div>

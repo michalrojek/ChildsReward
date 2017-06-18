@@ -20,8 +20,7 @@
     <!--  Light Bootstrap Table core CSS    -->
     <link href="/css/light-bootstrap-dashboard.css" rel="stylesheet"/>
 
-    <!--  CSS for Demo Purpose, don't include it in your project     -->
-    <link href="/css/demo.css" rel="stylesheet" />
+    <link href="/css/custom.css" rel="stylesheet" />
 
     <!--     Fonts and icons     -->
     <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
@@ -31,31 +30,35 @@
 <body>
 
 <div class="wrapper">
-    <div class="sidebar" data-color="black" data-image="/img/sidebar-5.jpg">
+    <div class="sidebar" data-color="blue" data-image="/img/sidebar-5.jpg">
     	<div class="sidebar-wrapper">
            <div class="logo">
 			<img src="/img/logo_m.png">
-                <a href="/dashboard" class="simple-text">
+                <a href="#" class="simple-text">
                     Child's Reward
                 </a>
-                <br/>
 				
             </div>
             <ul class="nav">
 			
-                <li>
-                    <a href="/childDashboard/profile">
-                        <i class="pe-7s-medal"></i>
+               <li class="">
+                    <a href="/childDashboard/tasks">
+                        <i class="pe-7s-pen"></i>
                         <p>TWOJE ZADANIA</p>
                     </a>
                 </li>
-				<li>
+				 <li class="">
                     <a href="/childDashboard/achievments">
-                        <i class="pe-7s-graph1"></i>
-                        <p>TWOJE STATYSTYKI</p>
+                        <i class="pe-7s-medal"></i>
+                        <p>ODZNACZENIA</p>
                     </a>
                 </li>
-                
+				<li class="">
+                    <a href="/childDashboard/rewards">
+                        <i class="pe-7s-star"></i>
+                        <p>NAGRODY</p>
+                    </a>
+                </li>
 				<li>
                     <a href="/childDashboard/logout">
                         <i class="pe-7s-power"></i>
@@ -66,10 +69,9 @@
     	</div>
     </div>
 
-        {{{body}}}
-
-    
+   {{{body}}}
 </div>
+
 
 </body>
 
@@ -85,6 +87,13 @@
 
     <!-- Light Bootstrap Table Core javascript and methods for Demo purpose -->
 	<script src="/js/light-bootstrap-dashboard.js"></script>
-    <script src="/js/main.js"></script>
+	<script src="/js/demo.js"></script>
+
+	<script type="text/javascript">
+    	$(document).ready(function(){
+
+        	demo.initChartist();
+    	});
+	</script>
 
 </html>
