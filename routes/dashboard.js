@@ -157,40 +157,51 @@ router.post('/addChild', function(req, res){
     
     let errors = req.validationErrors();
     
-    if(errors){
-        console.log(errors);
-        res.render('add_child', {
-            errors: errors,
-            children: req.session.children
-        });
-    } else {
-        let child = new Child();
-        child.name = req.body.childName;
-        child.parent = req.user._id;
-        child.score = 0;
-        child.achievments = [];
-        child.prizes = [];
-        child.login = req.body.childLogin;
-        
-        bcrypt.genSalt(10, function(err, salt){
-            bcrypt.hash(req.body.password1, salt, function(err, hash){
-                if(err){
-                    console.log(err);
-                }
-                child.password = hash;
-                child.save(function(err){
-                    if(err) {
+    Child.findOne({ $or: [{login: req.body.childLogin},{ $and: [{name: req.body.childName}, {parent: req.user._id}]}]}, function(err, child){
+        if(err) console.log(err);
+        if(child && req.body.childLogin != '' && req.body.childName != '') {
+            var error = {param: 'child_reg', msg: 'W twoim spisie istnieje już profil dziecka o takiej nazwie lub podany login został zajęty'};
+            if(!errors) {
+                errors = [];
+            }
+            errors.push(error);
+        }
+    
+        if(errors){
+            console.log(errors);
+            res.render('add_child', {
+                errors: errors,
+                children: req.session.children
+            });
+        } else {
+            let child = new Child();
+            child.name = req.body.childName;
+            child.parent = req.user._id;
+            child.score = 0;
+            child.achievments = [];
+            child.prizes = [];
+            child.login = req.body.childLogin;
+
+            bcrypt.genSalt(10, function(err, salt){
+                bcrypt.hash(req.body.password1, salt, function(err, hash){
+                    if(err){
                         console.log(err);
-                        return;
-                    } else {
-                        req.session.curChild = child._id;
-                        req.flash('success_msg', 'Dziecko zostało dodane');
-                        res.redirect('/dashboard');
                     }
+                    child.password = hash;
+                    child.save(function(err){
+                        if(err) {
+                            console.log(err);
+                            return;
+                        } else {
+                            req.session.curChild = child._id;
+                            req.flash('success_msg', 'Dziecko zostało dodane');
+                            res.redirect('/dashboard');
+                        }
+                    });
                 });
             });
-        });
-    }
+        }
+    });
 });
 
 router.get('/oneshot', ensureAuthenticated, findOneshot, function(req, res) {
