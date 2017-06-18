@@ -59,3 +59,19 @@
 .table-upgrade td:nth-child(3){
     text-align: center;
 }
+
+.chooseChildButton {
+	margin-top:10px;
+	color:black;
+	border-radius: 10px;
+}
+
+.panel-title {
+	font-weight:600;
+}
+.panel-body {
+	text-align:justify;
+}
+.mainInfo {
+	font-weight:600;
+}

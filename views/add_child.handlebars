@@ -1,5 +1,4 @@
-
-    <div class="main-panel">
+<div class="main-panel">
         <nav class="navbar navbar-default navbar-fixed">
             <div class="container-fluid">
                 <div class="navbar-header">
@@ -13,7 +12,7 @@
                 </div>
 
                 <div class="collapse navbar-collapse">
-                    
+                   
                 </div>
             </div>
         </nav>
@@ -26,7 +25,7 @@
                         {{/if}}
             <div class="container-fluid">
                 <div class="row">
-                    <form class="form-horizontal" method="post" action="/dashboard/addChild">
+                  <form class="form-horizontal" method="post" action="/dashboard/addChild">
                       <div class="form-group">
                         <label for="inputEmail3" class="col-sm-2 control-label">Imię dziecka</label>
                         <div class="col-sm-5">
@@ -51,6 +50,14 @@
                           <input type="password" class="form-control" id="password2" placeholder="Powtórz hasło" name="password2">
                         </div>
                       </div>
+				      <div class="form-group">
+                          <label for="inputPassword3" class="col-sm-2 control-label">Obrazek (opcjonalnie)</label>
+                          <div class="col-sm-5">
+                          <label class="btn btn-default btn-file">
+                             <input type="file" hidden>
+                        </label>
+                    </div>
+                    </div>
                       <div class="form-group">
                         <div class="col-sm-offset-2 col-sm-10">
                           <button type="submit" class="btn btn-default">Dodaj dziecko</button>
@@ -61,4 +68,4 @@
                 </div>
             </div>
         </div>
-</div>
+    </div>
