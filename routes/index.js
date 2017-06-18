@@ -11,6 +11,14 @@ router.get('/', ensureAuthenticated, function(req, res){
     res.render('index', {layout: ''});
 });
 
+router.get('/user', ensureAuthenticated, function(req, res){
+    res.render('user_login', {layout: ''});
+});
+
+router.get('/child', ensureAuthenticated, function(req, res){
+    res.render('child_login', {layout: ''});
+});
+
 function ensureAuthenticated(req, res, next){
     if(req.user instanceof User) {
         res.redirect('/dashboard');
@@ -23,7 +31,7 @@ function ensureAuthenticated(req, res, next){
 }
 
 // Register user
-router.post('/register', function(req, res){
+router.post('/user/register', function(req, res){
     var name = req.body.name_reg;
     var email = req.body.mail_reg;
     var username = req.body.username_reg;
@@ -31,7 +39,7 @@ router.post('/register', function(req, res){
     var password2 = req.body.password2_reg;
     
     // Validation
-    req.checkBody('name_reg', 'Imię jest wymagane').notEmpty();
+    req.checkBody('name_reg', 'Imię i nazwisko jest wymagane').notEmpty();
     req.checkBody('username_reg', 'Nazwa użytkownika jest wymagana').notEmpty();
     req.checkBody('mail_reg', 'Email jest wymagany').notEmpty();
     req.checkBody('mail_reg', 'Email jest niepoprawny').isEmail();
@@ -52,7 +60,7 @@ router.post('/register', function(req, res){
         
         if(errors) {
             req.flash('errors', errors);
-            res.redirect('/#register');
+            res.redirect('/user#register');
         } else {
             var newUser = new User({
                 name: name,
@@ -68,20 +76,20 @@ router.post('/register', function(req, res){
 
             req.flash('success_msg', 'Rejestracja przebiegła pomyślnie, możesz się zalogować');
 
-            res.redirect('/');
+            res.redirect('/user#login');
         }
          
     });
 });
 
-router.post('/login',
-  passport.authenticate('user', {successRedirect: '/dashboard', failureRedirect: '/', failureFlash: true}),
+router.post('/user/login',
+  passport.authenticate('user', {successRedirect: '/dashboard', failureRedirect: '/user#login', failureFlash: true}),
   function(req, res) {
     res.redirect('/dashboard');
   });
 
-router.post('/childlogin',
-  passport.authenticate('child', {successRedirect: '/childDashboard', failureRedirect: '/#childlogin', failureFlash: true}),
+router.post('/child',
+  passport.authenticate('child', {successRedirect: '/childDashboard', failureRedirect: '/child', failureFlash: true}),
   function(req, res) {
     res.redirect('/childDashboard');
   });

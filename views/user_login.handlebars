@@ -1,0 +1,130 @@
+<!doctype html>
+<html lang="pl">
+<head>
+<meta charset="utf-8" />
+	<link rel="icon" type="image/png" href="/img/favicon.ico">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+
+	<title>Child's Reward - system zadanie-nagroda dla dzieci</title>
+
+	<meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0' name='viewport' />
+    <meta name="viewport" content="width=device-width" />
+	
+	<link href="/css/login.css" rel="stylesheet" />
+	<link href="/css/bootstrap.min.css" rel="stylesheet" />
+	</head>
+
+<body>
+
+    <div class="login-area">
+        <div class="bg-image">
+            <div class="login-signup">
+                <div class="container">
+                    <div class="login-header">
+                        <div class="row">
+						<div class="col-md-12 col-sm-12 col-xs-12">
+                            <div><img class="center-block" style="margin-top:20px;" src="/img/logo_m.png"></div>
+							<br />
+							<p class="text-center h1 text-white" style="color:#fff">CHILD'S REWARD</p>
+							
+							</div>
+                            <div class="col-md-12 col-sm-12 col-xs-12">
+                                <div class="login-details">
+                                    <ul class="nav nav-tabs navbar-right">
+                                        <li><a data-toggle="tab" href="#register">Zarejestruj się</a></li>
+                                        <li class="active"><a data-toggle="tab" href="#login">Zaloguj</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+
+
+                    </div>
+
+                    <div class="tab-content">
+                        <div id="register" class="tab-pane">
+                           <div class="login-inner">
+                                <div class="title">
+                                    <h1>ZAREJESTRUJ <span>SIĘ!</span></h1>
+                                </div>
+                                {{#if errors}}
+                                    {{#each errors}}
+                                        <div class="text-center alert alert-danger">{{msg}}</div>
+                                    {{/each}}
+                                {{/if}}
+                                <div class="login-form">
+                                    <form method="post" action="/user/register">
+                                        <div class="form-details">
+                                            <label class="user">
+                                                <input type="text" name="name_reg" placeholder="Imię i nazwisko" id="name">
+                                            </label>
+                                            <label class="user">
+                                                <input type="text" name="username_reg" placeholder="Nazwa użytkownika" id="username">
+                                            </label>
+                                            <label class="mail">
+                                                <input type="email" name="mail_reg" placeholder="Adres email" id="mail">
+                                            </label>
+                                            <label class="pass">
+                                                <input type="password" name="password_reg" placeholder="Hasło" id="password">
+                                            </label>
+                                            <label class="pass">
+                                                <input type="password" name="password2_reg" placeholder="Powtórz hasło" id="password">
+                                            </label>
+                                        </div>
+                                        <button type="submit" class="btn btn-primary" onsubmit="">Zatwierdź</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="login" class="tab-pane fade in active">
+                            <div class="login-inner">
+                                <div class="title">
+                                    <h1>WITAJ <span>PONOWNIE!</span></h1>
+                                </div>
+                                {{#if success_msg}}
+                                    <div class="text-center alert alert-success">{{success_msg}}</div>
+                                {{/if}}
+                                {{#if error}}
+                                    <div class="text-center alert alert-danger">{{error}}</div>
+                                {{/if}}
+                                <div class="login-form">
+                                    <form method="post" action="/user/login">
+                                        <div class="form-details">
+                                            <label class="user">
+                                                <input type="text" name="username" placeholder="Nazwa użytkownika" id="username">
+                                            </label>
+                                            <label class="pass">
+                                                <input type="password" name="password" placeholder="Hasło" id="password">
+                                            </label>
+                                        </div>
+                                        <button type="submit" class="btn btn-primary" onsubmit="">Zatwierdź</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+
+
+       <!--   Core JS Files   -->
+    <script src="/js/jquery-1.10.2.js" type="text/javascript"></script>
+	<script src="/js/bootstrap.min.js" type="text/javascript"></script>
+    <script>
+        // Javascript to enable link to tab
+        var hash = document.location.hash;
+        var prefix = "tab_";
+        if (hash) {
+            $('.nav-tabs a[href="'+hash.replace(prefix,"")+'"]').tab('show');
+        } 
+
+        // Change hash for page-reload
+        $('.nav-tabs a').on('shown', function (e) {
+            window.location.hash = e.target.hash.replace("#", "#" + prefix);
+        });
+    </script>
+    </body>
+</html>

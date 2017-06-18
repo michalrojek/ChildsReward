@@ -12,7 +12,7 @@ let Prize = require('../models/prize');
 
 //var date = new Date(2017, 5, 11, 12, 43, 20);
 
-let predefinedtask = new PredefinedTask();
+/*let predefinedtask = new PredefinedTask();
 predefinedtask.name = 'Pozmywać naczynia';
 predefinedtask.desc = 'Pozbierać i pozmywać naczynia w całym obrębie domu/mieszkania';
 predefinedtask.score = 150;
@@ -21,7 +21,7 @@ predefinedtask.save(function(err){
         console.log(err);
         return;
     }
-})
+})*/
 
 function calculateNextDeadline(task){
     var dat = new Date(task.deadline);
