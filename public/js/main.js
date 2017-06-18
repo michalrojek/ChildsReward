@@ -1,5 +1,5 @@
 $(document).ready(function(){
-    $('.delete-task').on('click', function(e){
+    $('.delete-task-oneshot').on('click', function(e){
         $target = $(this);
         const id = $target.attr('data-id');
         console.log(e.target);
@@ -8,7 +8,7 @@ $(document).ready(function(){
             url:'/dashboard/task/'+id,
             success: function(response){
                 //alert('Zadanie zostało usunięte');
-                window.location.href='/dashboard/profile';
+                window.location.href='/dashboard/oneshot';
             },
             error: function(err){
                 console.log(err);
@@ -16,7 +16,7 @@ $(document).ready(function(){
         });
     });
     
-    $('.complete-task').on('click', function(e){
+    $('.complete-task-oneshot').on('click', function(e){
         $target = $(this);
         const id = $target.attr('data-id');
         console.log(e.target);
@@ -25,7 +25,41 @@ $(document).ready(function(){
             url:'/dashboard/taskComplete/'+id,
             success: function(response){
                 //alert('Zadanie zostało wykonane');
-                window.location.href='/dashboard/profile';
+                window.location.href='/dashboard/oneshot';
+            },
+            error: function(err){
+                console.log(err);
+            }
+        });
+    });
+    
+    $('.delete-task-repeat').on('click', function(e){
+        $target = $(this);
+        const id = $target.attr('data-id');
+        console.log(e.target);
+        $.ajax({
+            type:'DELETE',
+            url:'/dashboard/task/'+id,
+            success: function(response){
+                //alert('Zadanie zostało usunięte');
+                window.location.href='/dashboard/repeat';
+            },
+            error: function(err){
+                console.log(err);
+            }
+        });
+    });
+    
+    $('.complete-task-repeat').on('click', function(e){
+        $target = $(this);
+        const id = $target.attr('data-id');
+        console.log(e.target);
+        $.ajax({
+            type:'DELETE',
+            url:'/dashboard/taskComplete/'+id,
+            success: function(response){
+                //alert('Zadanie zostało wykonane');
+                window.location.href='/dashboard/repeat';
             },
             error: function(err){
                 console.log(err);

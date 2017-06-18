@@ -140,7 +140,7 @@ router.get('/', ensureAuthenticated, lookForCurChild, function(req, res){
             /*res.render('dashboard', {
                 children: req.session.children
             });*/
-            res.redirect('/dashboard/profile');
+            res.redirect('/dashboard/oneshot');
         }
     });
 });
@@ -194,6 +194,23 @@ router.post('/addChild', function(req, res){
 });
 
 router.get('/profile', ensureAuthenticated, findOneshot, findRepeat, renderTasks);
+
+router.get('/oneshot', ensureAuthenticated, findOneshot, function(req, res) {
+    console.log(req.oneshotTasks);
+    res.render('oneshot_tasks', {
+        oneshotTasks: req.oneshotTasks,
+        curChild: req.session.curChild,
+        children: req.session.children
+    });
+});
+
+router.get('/repeat', ensureAuthenticated, findRepeat, function(req, res) {
+    res.render('repeat_tasks', {
+        repeatTasks: req.repeatTasks,
+        curChild: req.session.curChild,
+        children: req.session.children
+    });
+});
 
 router.post('/profile', function(req, res){
    //console.log(req.body.selectProfile);

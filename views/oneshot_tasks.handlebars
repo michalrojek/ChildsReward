@@ -1,0 +1,70 @@
+<div class="main-panel">
+        <nav class="navbar navbar-default navbar-fixed">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navigation-example-2">
+                        <span class="sr-only">Włącz nawigację</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand" href="#">LISTA ZADAŃ</a>
+                </div>
+
+                <div class="collapse navbar-collapse">
+                    <a href="/dashboard/taskType"><button type="button" class="btn btn-success pull-right">Dodaj własne zadanie</button></a>
+                </div>
+            </div>
+        </nav>
+
+
+        <div class="content">
+            <div class="container-fluid">
+                {{#if success_msg}}
+                    <div class="alert alert-success">{{success_msg}}</div>
+                {{/if}}
+                <div class="row">
+				
+                    <div class="col-md-12">
+				 <div class="header">
+                                <h4 class="title">ZADANIA JEDNORAZOWE</h4>
+                            </div>
+					
+					<div class='row'>
+		
+                    {{#if oneshotTasks}}
+                                                {{#each oneshotTasks}}
+                                                    <div class='col-sm-3'>
+                                                        <div class="panel panel-default">
+                                                          <div class="panel-heading">
+                                                            <h4 class='panel-title text-center'>{{name}}</h4>
+                                                          </div>
+                                                            <div class="img-responsive"> <img src="http://placehold.it/400X200/ededed" class="img-responsive"></div>
+                                                          <div class="panel-body">
+
+                                                            <p>
+                                                              {{desc}}
+                                                            </p>
+                                                            <div class="mainInfo">TERMIN: {{dateFormat deadline "MM.DD.YYYY"}} <br /> PUNKTY: {{score}}</div>
+                                                          </div>
+                                                          <div class='panel-footer text-center'>
+                                                            <a href="#" class="btn btn-success complete-task-oneshot" data-id={{_id}}><span class="glyphicon glyphicon-ok"></span> OK</a>
+                                                            <a href="/dashboard/editTask/{{_id}}" class="btn btn-primary"><span class="glyphicon glyphicon-th-list"></span> EDYTUJ</a>
+                                                            <a href="#" class="btn btn-danger delete-task-oneshot" data-id={{_id}}><span class="glyphicon glyphicon-remove"></span> USUŃ</a>
+                                                          </div>
+                                                        </div>
+                                                      </div>
+                                                {{/each}}
+                                            {{/if}}    
+                        
+  
+</div>
+					
+                    </div>
+                </div>
+				
+				
+				
+            </div>
+        </div>
+    </div>
