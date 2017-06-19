@@ -18,6 +18,15 @@ router.get('/', ensureAuthenticated, function(req, res){
         });
         console.log(req.app.images);
     });
+    fs.readdir('./public/img/reward_photos', function(err, files){
+        if(err)
+            throw err;
+        req.app.rewardimages = [];
+        files.forEach(function(file){
+            req.app.rewardimages.push(file);
+        });
+        console.log(req.app.rewardimages);
+    });
     res.render('index', {layout: ''});
 });
 

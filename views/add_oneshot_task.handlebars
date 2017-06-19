@@ -79,10 +79,10 @@
                         </div>
                         <fieldset class="form-group for-images" style="margin-left: 140px !important;margin-top: 50px;">
                             <legend>Zdjęcie do nagrody:</legend>
-                            {{#if stockImages}}
-                            {{#each stockImages}}
+                            {{#if rewardImages}}
+                            {{#each rewardImages}}
                             <input type="radio" class="radio-for-image" name="imageurlprize" id="{{this}}prize" value="{{this}}">
-                            <label for="{{this}}prize" class="label-for-image" style="background: url('/img/stock_photos/{{this}}');background-size: 100% 100%;">{{this}}</label>
+                            <label for="{{this}}prize" class="label-for-image" style="background: url('/img/reward_photos/{{this}}');background-size: 100% 100%;">{{this}}</label>
                             {{/each}}
                             {{/if}}
                         </fieldset>

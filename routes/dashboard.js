@@ -243,7 +243,8 @@ router.post('/oneshotTaskType', function(req, res){
         res.render('add_oneshot_task', {
             children: req.session.children,
             predefinedTask: task,
-            stockImages: req.app.images
+            stockImages: req.app.images,
+            rewardImages: req.app.rewardimages
         });
     });
 });
@@ -263,16 +264,18 @@ router.post('/repeatTaskType', function(req, res){
         res.render('add_repeat_task', {
             children: req.session.children,
             predefinedTask: task,
-            stockImages: req.app.images
+            stockImages: req.app.images,
+            rewardImages: req.app.rewardimages
         });
     });
 });
 
 router.get('/addTask/:type', ensureAuthenticated, function(req, res){
     if(req.params.type === 'oneshot'){
-        res.render('add_oneshot_task', {children: req.session.children, stockImages: req.app.images});
+        console.log(req.app.rewardimages);
+        res.render('add_oneshot_task', {children: req.session.children, stockImages: req.app.images, rewardImages: req.app.rewardimages});
     } else if (req.params.type === 'repeat') {
-        res.render('add_repeat_task', {children: req.session.children, stockImages: req.app.images});
+        res.render('add_repeat_task', {children: req.session.children, stockImages: req.app.images, rewardImages: req.app.rewardimages});
     } 
 });
 
@@ -309,13 +312,15 @@ router.post('/addTask/:type', function(req, res) {
             res.render('add_oneshot_task', {
                 errors: errors,
                 children: req.session.children,
-                stockImages: req.app.images
+                stockImages: req.app.images,
+                rewardImages: req.app.rewardimages
             });
         } else if (req.params.type === 'repeat') {
             res.render('add_repeat_task', {
                 errors: errors,
                 children: req.session.children,
-                stockImages: req.app.images
+                stockImages: req.app.images,
+                rewardImages: req.app.rewardimages
             });
         }
     } else {
@@ -386,13 +391,15 @@ router.get('/editTask/:id', ensureAuthenticated, function(req, res){
                 task:task,
                 prize: prize,
                 children: req.session.children,
-                stockImages: req.app.images
+                stockImages: req.app.images,
+                rewardImages: req.app.rewardimages
             });
         } else {
             res.render('edit_task', {
                 task:task,
                 children: req.session.children,
-                stockImages: req.app.images
+                stockImages: req.app.images,
+                rewardImages: req.app.rewardimages
             });
         }
     })
@@ -441,7 +448,8 @@ router.post('/editTask/:id', function(req, res){
                 errors: errors,
                 task:task,
                 children: req.session.children,
-                stockImages: req.app.images
+                stockImages: req.app.images,
+                rewardImages: req.app.rewardimages
             });
           });
     } else {
