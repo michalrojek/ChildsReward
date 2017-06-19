@@ -80,5 +80,5 @@ $(document).ready(function(){
         $("#selectProfile").on('change', function() {
             localStorage.setItem('selectProfile', $('option:selected', this).index());
         });
-    }); 
+    });
 });

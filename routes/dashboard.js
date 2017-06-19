@@ -242,7 +242,8 @@ router.post('/oneshotTaskType', function(req, res){
     PredefinedTask.findById(predefinedTask, function(err, task){
         res.render('add_oneshot_task', {
             children: req.session.children,
-            predefinedTask: task
+            predefinedTask: task,
+            stockImages: req.app.images
         });
     });
 });
@@ -261,16 +262,17 @@ router.post('/repeatTaskType', function(req, res){
     PredefinedTask.findById(predefinedTask, function(err, task){
         res.render('add_repeat_task', {
             children: req.session.children,
-            predefinedTask: task
+            predefinedTask: task,
+            stockImages: req.app.images
         });
     });
 });
 
 router.get('/addTask/:type', ensureAuthenticated, function(req, res){
     if(req.params.type === 'oneshot'){
-        res.render('add_oneshot_task', {children: req.session.children});
+        res.render('add_oneshot_task', {children: req.session.children, stockImages: req.app.images});
     } else if (req.params.type === 'repeat') {
-        res.render('add_repeat_task', {children: req.session.children});
+        res.render('add_repeat_task', {children: req.session.children, stockImages: req.app.images});
     } 
 });
 
@@ -280,6 +282,7 @@ router.post('/addTask/:type', function(req, res) {
     req.checkBody('score', 'Ilość punktów jest wymagana').notEmpty();
     //req.checkBody('type', 'Typ zadania jest wymagany').notEmpty();
     req.checkBody('deadline', 'Termin zadania jest wymagany').notEmpty();
+    req.checkBody('imageurl', 'Zdjęcie reprezentujące zadanie jest wymagane').notEmpty();
     
     if(req.params.type === 'repeat') {
         req.checkBody('deadlineType', 'Częstotliwość zadania cyklicznego jest wymagana').notEmpty();
@@ -288,6 +291,7 @@ router.post('/addTask/:type', function(req, res) {
     if(req.body.prize){
         req.checkBody('prizeName', 'Nazwa nagrody jest wymagana').notEmpty();
         req.checkBody('prizeDesc', 'Opis nagrody jest wymagany').notEmpty();
+        req.checkBody('imageurlprize', 'Zdjęcie reprezentujące nagrodę jest wymagane').notEmpty();
     }
     
     let errors = req.validationErrors();
@@ -304,12 +308,14 @@ router.post('/addTask/:type', function(req, res) {
         if(req.params.type === 'oneshot') {
             res.render('add_oneshot_task', {
                 errors: errors,
-                children: req.session.children
+                children: req.session.children,
+                stockImages: req.app.images
             });
         } else if (req.params.type === 'repeat') {
             res.render('add_repeat_task', {
                 errors: errors,
-                children: req.session.children
+                children: req.session.children,
+                stockImages: req.app.images
             });
         }
     } else {
@@ -326,6 +332,7 @@ router.post('/addTask/:type', function(req, res) {
         task.child = req.session.curChild;
         task.deadline = req.body.deadline;
         task.isActive = true;
+        task.imgurl = req.body.imageurl;
         
         if(task.type === 2) {
             task.typeOfDeadline = req.body.deadlineType;
@@ -340,6 +347,7 @@ router.post('/addTask/:type', function(req, res) {
             prize.author = req.user._id;
             prize.child = req.session.curChild;
             prize.task = task._id;
+            prize.imgurl = req.body.imageurlprize;
             prize.save(function(err){
                 if(err) {
                     console.log(err);
@@ -377,12 +385,14 @@ router.get('/editTask/:id', ensureAuthenticated, function(req, res){
             res.render('edit_task', {
                 task:task,
                 prize: prize,
-                children: req.session.children
+                children: req.session.children,
+                stockImages: req.app.images
             });
         } else {
             res.render('edit_task', {
                 task:task,
-                children: req.session.children
+                children: req.session.children,
+                stockImages: req.app.images
             });
         }
     })
@@ -396,6 +406,7 @@ router.post('/editTask/:id', function(req, res){
     req.checkBody('score', 'Ilość punktów jest wymagana').notEmpty();
     req.checkBody('type', 'Typ zadania jest wymagany').notEmpty();
     req.checkBody('deadline', 'Termin jest wymagany').notEmpty();
+    req.checkBody('imageurl', 'Zdjęcie reprezentujące zadanie jest wymagane').notEmpty();
     
     if(req.body.type === 'repeat') {
         req.checkBody('deadlineType', 'Częstotliwość zadania cyklicznego jest wymagana').notEmpty();
@@ -404,6 +415,7 @@ router.post('/editTask/:id', function(req, res){
     if(req.body.prize){
         req.checkBody('prizeName', 'Nazwa nagrody jest wymagana').notEmpty();
         req.checkBody('prizeDesc', 'Opis nagrody jest wymagany').notEmpty();
+        req.checkBody('imageurlprize', 'Zdjęcie reprezentujące nagrodę jest wymagane').notEmpty();
     }
     
     let errors = req.validationErrors();
@@ -428,7 +440,8 @@ router.post('/editTask/:id', function(req, res){
             res.render('edit_task', {
                 errors: errors,
                 task:task,
-                children: req.session.children
+                children: req.session.children,
+                stockImages: req.app.images
             });
           });
     } else {
@@ -445,6 +458,7 @@ router.post('/editTask/:id', function(req, res){
         task.child = req.session.curChild;
         task.deadline = req.body.deadline;
         task.isActive = true;
+        task.imgurl = req.body.imageurl;
         
         if(task.type === 2) {
             task.typeOfDeadline = req.body.deadlineType;
@@ -473,6 +487,7 @@ router.post('/editTask/:id', function(req, res){
             prize.author = req.user._id;
             prize.child = req.session.curChild;
             prize.task = req.params.id;
+            prize.imgurl = req.body.imageurlprize;
             Prize.update(query, prize, function(err){
                 if(err){
                   console.log(err);
@@ -490,6 +505,7 @@ router.post('/editTask/:id', function(req, res){
             prize.author = req.user._id;
             prize.child = req.session.curChild;
             prize.task = req.params.id;
+            prize.imgurl = req.body.imageurlprize;
             prize.save(function(err){
                 if(err) {
                     console.log(err);

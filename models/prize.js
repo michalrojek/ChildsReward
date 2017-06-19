@@ -20,6 +20,10 @@ let prizeSchema = mongoose.Schema({
     task: {
         type: String,
         required: true
+    },
+    imgurl: {
+        type: String,
+        required: true
     }
 });
 

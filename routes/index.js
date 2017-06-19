@@ -2,12 +2,22 @@ var express = require('express');
 var router = express.Router();
 var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
+var fs = require('fs');
 
 var User = require('../models/user');
 var Child = require('../models/child');
 
 // Get Homepage
 router.get('/', ensureAuthenticated, function(req, res){
+    fs.readdir('./public/img/stock_photos', function(err, files){
+        if(err)
+            throw err;
+        req.app.images = [];
+        files.forEach(function(file){
+            req.app.images.push(file);
+        });
+        console.log(req.app.images);
+    });
     res.render('index', {layout: ''});
 });
 

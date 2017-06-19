@@ -25,7 +25,8 @@ var app = express();
 
 var hbs = exphbs.create({
     helpers: {
-        'dateFormat': require('handlebars-dateformat')
+        'dateFormat': require('handlebars-dateformat'),
+        'json': function(context){return JSON.stringify(context);}
     },
     defaultLayout:'layout'
 });

@@ -50,6 +50,15 @@
                             <input type="date" name="deadline" style="border: 1px solid #E3E3E3;height: 37px;text-align: center;border-radius: 4px;" id="deadline">
                         </div>
                     </div>
+                    <fieldset class="form-group for-images" style="margin-left: 140px !important;margin-top: 50px;">
+                        <legend>Zdjęcie do zadania:</legend>
+                        {{#if stockImages}}
+                        {{#each stockImages}}
+                        <input type="radio" class="radio-for-image" name="imageurl" id="{{this}}" value="{{this}}">
+                        <label for="{{this}}" class="label-for-image" style="background: url('/img/stock_photos/{{this}}');background-size: 100% 100%;">{{this}}</label>
+                        {{/each}}
+                        {{/if}}
+                    </fieldset>
                         <div class="form-group" style="margin-left: 19px;">
                             <label for="prize" class="col-sm-2 control-label">Opcjonalna nagroda:</label>
                             <div class="col-sm-5">
@@ -68,6 +77,15 @@
                                 <textarea class="form-control" name="prizeDesc" id="desc" placeholder="Opis nagrody"></textarea>
                             </div>
                         </div>
+                        <fieldset class="form-group for-images" style="margin-left: 140px !important;margin-top: 50px;">
+                            <legend>Zdjęcie do nagrody:</legend>
+                            {{#if stockImages}}
+                            {{#each stockImages}}
+                            <input type="radio" class="radio-for-image" name="imageurlprize" id="{{this}}prize" value="{{this}}">
+                            <label for="{{this}}prize" class="label-for-image" style="background: url('/img/stock_photos/{{this}}');background-size: 100% 100%;">{{this}}</label>
+                            {{/each}}
+                            {{/if}}
+                        </fieldset>
                     <button type="submit" class="chooseChildButton">Dodaj zadanie</button>
                 </form>
             </div>

@@ -75,3 +75,21 @@
 .mainInfo {
 	font-weight:600;
 }
+
+.radio-for-image {
+    opacity: 0;
+    position: absolute;
+}
+.label-for-image {
+    text-indent: -999em;
+    border: 10px solid white;
+    width: 126px;
+    height: 126px;
+    display: block;
+    float: left;
+    margin: 10px;
+}
+
+input[type="radio"].radio-for-image:checked + label {
+    border: 10px solid orange;
+}

@@ -40,6 +40,10 @@ let taskSchema = mongoose.Schema({
     isActive: {
         type: Boolean,
         required: false
+    },
+    imgurl: {
+        type: String,
+        required: true
     }
     
 });

@@ -12,6 +12,10 @@ let achievmentSchema = mongoose.Schema({
     desc: {
         type: String,
         required: true
+    },
+    imgurl: {
+        type: String,
+        required: true
     }
 });
 
